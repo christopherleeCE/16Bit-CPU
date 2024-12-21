@@ -124,7 +124,6 @@ int main(int argc, char* argv[]){
     //iterates through 4 string vectors, converting to machine code & printing out
     //assembly instr, switch case, and output machine code hex in 3 consecutive lines
     //each switch case corresponsed to the instruction#
-
     std::cout << "INSTR Conversion\n================" << std::endl;
     for(uint ii = 0; ii < op_code.size(); ii++){
 
