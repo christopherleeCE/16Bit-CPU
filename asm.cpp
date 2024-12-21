@@ -55,16 +55,23 @@ int main(int argc, char* argv[]){
         }
     }std::cout << "line_count is " << line_count << std::endl << std::endl;
 
+
+    //copying lines[] to a stringstream lines_stream
     std::cout << "lines[]\n" << "=======\n";
     for(const auto& line : lines){
         std::cout << line << std::endl;
         lines_stream.push_back(std::stringstream(line));
     }std::cout << std::endl;
+    
 
+
+    //storing temporary strings emptying the lines_streams vector into op_code, term1, term2 and term3 vectors
     std::string str, str1, str2, str3; int jj = 0;
     std::vector<std::string> op_code, term1, term2, term3;
     std::cout << "First word of lines_stream[]\n" << "============================\n";
+
     for(uint ii = 0; ii < lines_stream.size(); ii++){
+
         str.clear(); str1.clear(); str2.clear(); str3.clear();
         lines_stream[ii] >> str >> str1 >> str2 >> str3;
         std::cout << ii << ": " << str << std::endl;
@@ -72,19 +79,22 @@ int main(int argc, char* argv[]){
         if(INSTR_SET.find(str) == INSTR_SET.end()){
             LABELS[str] = ii - jj;
             jj++; //progressive offset so that labels will correctly allign with program
+
         }else{
             op_code.push_back(str);
             term1.push_back(str1);
             term2.push_back(str2);
             term3.push_back(str3);
         }
-    }LABELS.erase("");
+    }LABELS.erase("");  //errasing dummy pair("", 0) that is created when empty strings are read from in.txt
     std::cout << std::endl;
 
-    std::cout << "op_code[]\n" << "=========\n";
+    //cout of final instructions
+    std::cout << "Final Instructions\n(PC#    INSTR   TERM1   TERM2   TERM3)\n";
+    std::cout << "======================================\n";
     int count = 0;
     for(uint ii = 0; ii < op_code.size(); ii++){
-        std::cout << count << ": " << op_code[ii] << "\t" << term1[ii] << "\t" << term2[ii] << "\t" << term3[ii] << "\t" << std::endl;
+        std::cout << std::setw(4) << count << ": " << std::setw(6)<< op_code[ii] << "\t" << term1[ii] << "\t" << term2[ii] << "\t" << term3[ii] << "\t" << std::endl;
         count++;
 
     }std::cout << std::endl;
@@ -94,10 +104,8 @@ int main(int argc, char* argv[]){
         std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
     }std::cout << std::endl;
 
-    //debug, print out all maps
+    //additoin debug, prints out addition maps
     /*
-
-
     std::cout << "INSTR_SET" << std::endl << "=========" << std::endl;
     for(const auto& pair : INSTR_SET){
         std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
@@ -107,13 +115,17 @@ int main(int argc, char* argv[]){
     for(const auto& pair : REG){
         std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
     }std::cout << std::endl;
-
-
     */
 
  
     //for formatting, as seen in if statement excluding ii = 0, there is a better way to do this, im lazy
     out_file << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::uppercase << 0 << "\t";
+
+    //iterates through 4 string vectors, converting to machine code & printing out
+    //assembly instr, switch case, and output machine code hex in 3 consecutive lines
+    //each switch case corresponsed to the instruction#
+
+    std::cout << "INSTR Conversion\n================" << std::endl;
     for(uint ii = 0; ii < op_code.size(); ii++){
 
         if((ii % (WIDTH) == 0) & (ii != 0)){
@@ -124,107 +136,103 @@ int main(int argc, char* argv[]){
 
         std::cout << op_code[ii] << " " << term1[ii]<< " "  << term2[ii]<< " "  << term3[ii]<< " "  << std::endl;
 
-        if(INSTR_SET.find(op_code[ii]) != INSTR_SET.end()){
-            
-            switch (INSTR_SET[op_code[ii]]){
 
-            case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << std::endl << std::endl;             
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << "\t"; 
+        switch (INSTR_SET[op_code[ii]]){
+
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << std::endl << std::endl;             
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << "\t"; 
+        break;
+
+        case 9:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << REG[term2[ii]] << "0000" << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << REG[term2[ii]] << "0000" << "\t";
+        break;
+
+        case 11: case 12: case 13:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << "\t";
+        break;
+
+        case 14: case 15:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << std::endl << std::endl;             
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << "\t"; 
+        break;
+
+        case 16: case 17:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << "\t";
+        break;
+
+        case 18: case 19: case 20:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << REG[term2[ii]];
+            std::cout << std::setw(4) << std::setfill('0') << std::hex << std::uppercase << LABELS[term3[ii]] << std::endl << std::endl;               
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << REG[term2[ii]];
+            out_file << std::setw(4) << std::setfill('0') << std::hex << std::uppercase << LABELS[term3[ii]] << "\t";   
+        break;
+
+        case 21:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << std::setw(4) << std::setfill('0') << LABELS[term1[ii]] << "00" << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << std::setw(4) << std::setfill('0') << LABELS[term1[ii]] << "00" << "\t";
+        break;
+
+        case 22:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << std::setw(4) << std::setfill('0') << LABELS[term1[ii]];
+            std::cout << REG[term2[ii]] << "0" << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << std::setw(4) << std::setfill('0') << LABELS[term1[ii]];
+            out_file << REG[term2[ii]] << "0" << "\t";
+    
+        break;
+
+        case 23:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << "00000" << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << "00000" << "\t";
+        break;
+
+        case 26:
+            std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            std::cout << REG[term1[ii]] << term2[ii] << "0" << std::endl << std::endl;            
+            out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
+            out_file << REG[term1[ii]] << term2[ii] << "0" << "\t";
+        break;
+
+        default:
             break;
-
-            case 9:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << REG[term2[ii]] << "0000" << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << REG[term2[ii]] << "0000" << "\t";
-            break;
-
-            case 11: case 12: case 13:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << "\t";
-            break;
-
-            case 14: case 15:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << std::endl << std::endl;             
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << REG[term2[ii]] << REG[term3[ii]] << "000" << "\t"; 
-            break;
-
-            case 16: case 17:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << REG[term2[ii]] << term3[ii] << "\t";
-            break;
-
-            case 18: case 19: case 20:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << REG[term2[ii]];
-                std::cout << std::setw(4) << std::setfill('0') << std::hex << std::uppercase << LABELS[term3[ii]] << std::endl << std::endl;               
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << REG[term2[ii]];
-                out_file << std::setw(4) << std::setfill('0') << std::hex << std::uppercase << LABELS[term3[ii]] << "\t";   
-            break;
-
-            case 21:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << std::setw(4) << std::setfill('0') << LABELS[term1[ii]] << "00" << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << std::setw(4) << std::setfill('0') << LABELS[term1[ii]] << "00" << "\t";
-            break;
-
-            case 22:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << std::setw(4) << std::setfill('0') << LABELS[term1[ii]];
-                std::cout << REG[term2[ii]] << "0" << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << std::setw(4) << std::setfill('0') << LABELS[term1[ii]];
-                out_file << REG[term2[ii]] << "0" << "\t";
-      
-            break;
-
-            case 23:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << "00000" << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << "00000" << "\t";
-            break;
-
-            case 26:
-                std::cout << std::dec << "CASE: " << INSTR_SET[op_code[ii]] << std::hex << std::endl;
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                std::cout << REG[term1[ii]] << term2[ii] << "0" << std::endl << std::endl;            
-                out_file << "0x" << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << INSTR_SET[op_code[ii]];
-                out_file << REG[term1[ii]] << term2[ii] << "0" << "\t";
-            break;
-
-            default:
-                std::cout << "ERROR: INVALID INSTRUCTION" << std::endl << std::endl;            
-                out_file << "ERROR: INVALID INSTRUCTION" << "\t";
-                break;
-            }
         }
-    }
-
-
-
-    return 0;
+    }return 0;
 }
+
+
+
+
 
 
 void load_map_INSTR_SET(std::map<std::string, int>& in){
