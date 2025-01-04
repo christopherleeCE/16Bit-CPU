@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <circuit>
   <version>2</version>
-  <attributes/>
+  <attributes>
+    <entry>
+      <string>shapeType</string>
+      <shapeType>LAYOUT</shapeType>
+    </entry>
+    <entry>
+      <string>romContent</string>
+      <romList>
+        <roms/>
+      </romList>
+    </entry>
+  </attributes>
   <visualElements>
     <visualElement>
       <elementName>And</elementName>
@@ -66,10 +77,38 @@
           <string>Y</string>
         </entry>
       </elementAttributes>
+      <pos x="380" y="100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Or</elementName>
+      <elementAttributes>
+        <entry>
+          <string>wideShape</string>
+          <boolean>true</boolean>
+        </entry>
+      </elementAttributes>
       <pos x="280" y="80"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Description</string>
+          <string>Enables output high</string>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>PK</string>
+        </entry>
+      </elementAttributes>
+      <pos x="100" y="180"/>
     </visualElement>
   </visualElements>
   <wires>
+    <wire>
+      <p1 x="200" y="180"/>
+      <p2 x="260" y="120"/>
+    </wire>
     <wire>
       <p1 x="140" y="80"/>
       <p2 x="160" y="80"/>
@@ -83,12 +122,24 @@
       <p2 x="160" y="100"/>
     </wire>
     <wire>
+      <p1 x="360" y="100"/>
+      <p2 x="380" y="100"/>
+    </wire>
+    <wire>
+      <p1 x="100" y="180"/>
+      <p2 x="200" y="180"/>
+    </wire>
+    <wire>
       <p1 x="100" y="120"/>
       <p2 x="120" y="120"/>
     </wire>
     <wire>
       <p1 x="140" y="120"/>
       <p2 x="160" y="120"/>
+    </wire>
+    <wire>
+      <p1 x="260" y="120"/>
+      <p2 x="280" y="120"/>
     </wire>
     <wire>
       <p1 x="140" y="40"/>

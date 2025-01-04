@@ -1,0 +1,27 @@
+ASSEMBLER
+ - formatted debug output to stdout for easier assembly debugging, includes PC# next to instructions, labels are printed with a newline under "Final Instructions" in stdout, and various other things to improve readability of debug info in stdout
+ - added 3rd file input "debug.log" that should be given as an input argument, the assembler will write to this file with all of the conversions from assembly to machine code along with the instruction number and the switch statement case that did the conversion, this has been moved from stdout to the debug file as it is lengthy
+ - added C macros in asm.cpp that can be used to omit a section of the assembly program from being printed out to stdout, for example if a significant section of your code is dedicated to initializing memory, and causes stdout to not be able to display the entire debug printouts, define "FIRST_OMMITED_LABEL" and "LAST_OMMITED_LABEL" for the upper and lower bounds of assembly code to be omitted of the stdout debug info
+ - added 2 new assembly macros, LOAD_RAM and BGT, LOAD_RAM 0073 FFFF will store 0xFFFF at 0x0073 in ram, it should be noted this macro only preforms "MOV G0 0xNUMBER" and "SW ZERO G0 0xADDR" so any data in register G0 will be overwritten. BGT is the same as BLT but it swaps the order of the comparison, (x < y -> y > x) for when y > x would provide better readability of the code
+ - replaced all occurrences of std::endl with '\n' as this speeds up the code by about 30 times
+ - '#' can no be used for commenting, the assembler will ignore any line that begins with '#'
+ - formatted printing to out file to to allow DIGITAL.exe to read straight from the output file, preventing the need to copy and paste into the simulation manually
+ - under ".vscode" a "build" task has been set to run "clear; time; ./asm asm.s program.hex debug.log" (input_file output_file debug_file) this can be bound to F5 but i forgot how to do it
+ - likely various other things that i forgot
+
+
+MICROPROCESSOR
+ - various registers have been moved around and renamed including...
+ - general used registers have been renamed from Rx to Gx only because G is easier to type followed by a key from the number row
+ - new register KB, asynchronously reads from a keyboard in the digital simulation
+ - new register CLK, increments with each clk input, and can be written to just like any general use register, can be used for a "wait()" instruction for example
+ - added PC_BRK and RUNTIME_BRK these inputs can be set with a 16bit number, and execution will pause when PC or RUNTIME reach there respective numbers (runtime is the number of instructions executed since power on)
+ - the BRK_SEL can be stepped until next break occurs by clocking "STEP" (both rising and falling edge of clock will trigger a step) or the break can be ignored by setting "RUN" to '1'. additionally execution can be paused by enabling "STOP" located just above the BRK_SEL
+ - while execution has been stopped due to BRK_SEL or "STOP" the CLK can be incremented manually
+ - added CURRENT_PC, LAST_PC, and RUNTIME outputs for debugging
+ - likely various other things that i forgot
+
+
+
+
+

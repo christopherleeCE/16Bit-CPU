@@ -39,10 +39,6 @@
           <string>Bits</string>
           <int>16</int>
         </entry>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
       </elementAttributes>
       <pos x="-920" y="520"/>
     </visualElement>
@@ -56,10 +52,6 @@
         <entry>
           <string>Bits</string>
           <int>16</int>
-        </entry>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
         </entry>
       </elementAttributes>
       <pos x="-920" y="600"/>
@@ -103,26 +95,6 @@
       <pos x="-520" y="460"/>
     </visualElement>
     <visualElement>
-      <elementName>Register</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Bits</string>
-          <int>16</int>
-        </entry>
-      </elementAttributes>
-      <pos x="20" y="540"/>
-    </visualElement>
-    <visualElement>
-      <elementName>VDD</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="1"/>
-        </entry>
-      </elementAttributes>
-      <pos x="-20" y="580"/>
-    </visualElement>
-    <visualElement>
       <elementName>Out</elementName>
       <elementAttributes>
         <entry>
@@ -142,17 +114,7 @@
           <intFormat>decSigned</intFormat>
         </entry>
       </elementAttributes>
-      <pos x="120" y="520"/>
-    </visualElement>
-    <visualElement>
-      <elementName>VDD</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="1"/>
-        </entry>
-      </elementAttributes>
-      <pos x="-260" y="660"/>
+      <pos x="80" y="520"/>
     </visualElement>
     <visualElement>
       <elementName>VDD</elementName>
@@ -175,45 +137,14 @@
       <pos x="-880" y="360"/>
     </visualElement>
     <visualElement>
-      <elementName>Splitter</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Input Splitting</string>
-          <string>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,</string>
-        </entry>
-        <entry>
-          <string>Output Splitting</string>
-          <string>16</string>
-        </entry>
-      </elementAttributes>
-      <pos x="-80" y="680"/>
-    </visualElement>
-    <visualElement>
       <elementName>Ground</elementName>
-      <elementAttributes/>
-      <pos x="-20" y="740"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Out</elementName>
       <elementAttributes>
         <entry>
           <string>rotation</string>
           <rotation rotation="1"/>
         </entry>
-        <entry>
-          <string>Label</string>
-          <string>Q</string>
-        </entry>
-        <entry>
-          <string>Bits</string>
-          <int>16</int>
-        </entry>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>decSigned</intFormat>
-        </entry>
       </elementAttributes>
-      <pos x="120" y="640"/>
+      <pos x="-40" y="740"/>
     </visualElement>
     <visualElement>
       <elementName>VDD</elementName>
@@ -222,8 +153,12 @@
           <string>rotation</string>
           <rotation rotation="1"/>
         </entry>
+        <entry>
+          <string>Bits</string>
+          <int>16</int>
+        </entry>
       </elementAttributes>
-      <pos x="-120" y="980"/>
+      <pos x="-60" y="720"/>
     </visualElement>
     <visualElement>
       <elementName>Splitter</elementName>
@@ -269,21 +204,21 @@
           <boolean>true</boolean>
         </entry>
       </elementAttributes>
-      <pos x="-1020" y="660"/>
+      <pos x="-1160" y="660"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation rotation="3"/>
+          <rotation rotation="2"/>
         </entry>
         <entry>
           <string>NetName</string>
           <string>WORKING</string>
         </entry>
       </elementAttributes>
-      <pos x="-1040" y="720"/>
+      <pos x="-1200" y="700"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -310,16 +245,6 @@
       <pos x="-220" y="460"/>
     </visualElement>
     <visualElement>
-      <elementName>Counter</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Bits</string>
-          <int>16</int>
-        </entry>
-      </elementAttributes>
-      <pos x="-220" y="660"/>
-    </visualElement>
-    <visualElement>
       <elementName>Or</elementName>
       <elementAttributes>
         <entry>
@@ -328,26 +253,6 @@
         </entry>
       </elementAttributes>
       <pos x="-360" y="660"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Add</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Bits</string>
-          <int>17</int>
-        </entry>
-      </elementAttributes>
-      <pos x="-480" y="540"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Add</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Bits</string>
-          <int>16</int>
-        </entry>
-      </elementAttributes>
-      <pos x="0" y="660"/>
     </visualElement>
     <visualElement>
       <elementName>D_FF_AS</elementName>
@@ -441,7 +346,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[10]/elementAttributes/entry/rotation"/>
+          <rotation rotation="1"/>
         </entry>
       </elementAttributes>
       <pos x="-580" y="580"/>
@@ -458,7 +363,7 @@ trasforming numbers to 17 bits
 - implement lookahead fa</string>
         </entry>
       </elementAttributes>
-      <pos x="-780" y="740"/>
+      <pos x="-860" y="740"/>
     </visualElement>
     <visualElement>
       <elementName>Text</elementName>
@@ -469,7 +374,7 @@ trasforming numbers to 17 bits
 fa decrements by one</string>
         </entry>
       </elementAttributes>
-      <pos x="0" y="740"/>
+      <pos x="-40" y="800"/>
     </visualElement>
     <visualElement>
       <elementName>Text</elementName>
@@ -501,31 +406,7 @@ false finish flags at numbers &gt;= 2^15</string>
           <string>CLK</string>
         </entry>
       </elementAttributes>
-      <pos x="-1060" y="660"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Out</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>W</string>
-        </entry>
-      </elementAttributes>
-      <pos x="100" y="420"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Tunnel</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="2"/>
-        </entry>
-        <entry>
-          <string>NetName</string>
-          <string>WORKING</string>
-        </entry>
-      </elementAttributes>
-      <pos x="40" y="420"/>
+      <pos x="-1200" y="660"/>
     </visualElement>
     <visualElement>
       <elementName>Splitter</elementName>
@@ -540,7 +421,7 @@ false finish flags at numbers &gt;= 2^15</string>
         </entry>
         <entry>
           <string>Output Splitting</string>
-          <string>16,1</string>
+          <string>16</string>
         </entry>
       </elementAttributes>
       <pos x="-80" y="540"/>
@@ -551,18 +432,144 @@ false finish flags at numbers &gt;= 2^15</string>
       <pos x="-700" y="600"/>
     </visualElement>
     <visualElement>
-      <elementName>In</elementName>
+      <elementName>FA-16.dig</elementName>
+      <elementAttributes/>
+      <pos x="0" y="700"/>
+    </visualElement>
+    <visualElement>
+      <elementName>D_FF</elementName>
       <elementAttributes>
         <entry>
+          <string>Bits</string>
+          <int>16</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-20" y="540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>FA-17.dig</elementName>
+      <elementAttributes/>
+      <pos x="-480" y="540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>PC-16.dig</elementName>
+      <elementAttributes/>
+      <pos x="-160" y="660"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation reference="../../../../visualElement[11]/elementAttributes/entry/rotation"/>
+        </entry>
+      </elementAttributes>
+      <pos x="-200" y="700"/>
+    </visualElement>
+    <visualElement>
+      <elementName>VDD</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="1"/>
+        </entry>
+      </elementAttributes>
+      <pos x="-200" y="800"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="1"/>
+        </entry>
+        <entry>
           <string>Label</string>
-          <string>CLR</string>
+          <string>Q</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>16</int>
         </entry>
         <entry>
           <string>intFormat</string>
-          <intFormat>dec</intFormat>
+          <intFormat>decSigned</intFormat>
         </entry>
       </elementAttributes>
-      <pos x="-920" y="760"/>
+      <pos x="120" y="680"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>16</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-180" y="640"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="-260" y="680"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Description</string>
+          <string>must be high to initalize circuit before (or at?) first clock</string>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>INIT</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-1120" y="760"/>
+    </visualElement>
+    <visualElement>
+      <elementName>And</elementName>
+      <elementAttributes>
+        <entry>
+          <string>wideShape</string>
+          <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>inverterConfig</string>
+          <inverterConfig>
+            <string>In_1</string>
+          </inverterConfig>
+        </entry>
+      </elementAttributes>
+      <pos x="-1000" y="640"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>W</string>
+        </entry>
+      </elementAttributes>
+      <pos x="100" y="900"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>WORKING</string>
+        </entry>
+      </elementAttributes>
+      <pos x="40" y="900"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -571,8 +578,8 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-280" y="640"/>
     </wire>
     <wire>
-      <p1 x="-100" y="960"/>
-      <p2 x="-80" y="960"/>
+      <p1 x="-260" y="720"/>
+      <p2 x="-220" y="760"/>
     </wire>
     <wire>
       <p1 x="-760" y="640"/>
@@ -583,16 +590,16 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-280" y="640"/>
     </wire>
     <wire>
-      <p1 x="-100" y="900"/>
-      <p2 x="-80" y="900"/>
+      <p1 x="-1040" y="640"/>
+      <p2 x="-1020" y="640"/>
+    </wire>
+    <wire>
+      <p1 x="-200" y="800"/>
+      <p2 x="-160" y="800"/>
     </wire>
     <wire>
       <p1 x="-500" y="580"/>
       <p2 x="-480" y="580"/>
-    </wire>
-    <wire>
-      <p1 x="-20" y="580"/>
-      <p2 x="20" y="580"/>
     </wire>
     <wire>
       <p1 x="-380" y="580"/>
@@ -603,8 +610,20 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-560" y="580"/>
     </wire>
     <wire>
-      <p1 x="-100" y="840"/>
-      <p2 x="-80" y="840"/>
+      <p1 x="-180" y="740"/>
+      <p2 x="-160" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="-40" y="740"/>
+      <p2 x="0" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="-880" y="420"/>
+      <p2 x="-860" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="40" y="900"/>
+      <p2 x="100" y="900"/>
     </wire>
     <wire>
       <p1 x="-740" y="520"/>
@@ -631,10 +650,6 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-280" y="520"/>
     </wire>
     <wire>
-      <p1 x="-60" y="520"/>
-      <p2 x="-40" y="520"/>
-    </wire>
-    <wire>
       <p1 x="-200" y="520"/>
       <p2 x="-160" y="520"/>
     </wire>
@@ -643,8 +658,28 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-660" y="520"/>
     </wire>
     <wire>
-      <p1 x="-100" y="780"/>
-      <p2 x="-80" y="780"/>
+      <p1 x="-220" y="680"/>
+      <p2 x="-160" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="-280" y="680"/>
+      <p2 x="-260" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="-880" y="680"/>
+      <p2 x="-820" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="-1080" y="680"/>
+      <p2 x="-1000" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="-820" y="680"/>
+      <p2 x="-400" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="-180" y="780"/>
+      <p2 x="-160" y="780"/>
     </wire>
     <wire>
       <p1 x="-700" y="460"/>
@@ -663,12 +698,24 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-260" y="460"/>
     </wire>
     <wire>
-      <p1 x="-100" y="720"/>
-      <p2 x="-80" y="720"/>
+      <p1 x="-720" y="620"/>
+      <p2 x="-700" y="620"/>
+    </wire>
+    <wire>
+      <p1 x="-500" y="620"/>
+      <p2 x="-420" y="620"/>
+    </wire>
+    <wire>
+      <p1 x="-180" y="720"/>
+      <p2 x="-160" y="720"/>
     </wire>
     <wire>
       <p1 x="-400" y="720"/>
       <p2 x="-260" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="-60" y="720"/>
+      <p2 x="0" y="720"/>
     </wire>
     <wire>
       <p1 x="-920" y="400"/>
@@ -679,32 +726,48 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-760" y="400"/>
     </wire>
     <wire>
-      <p1 x="-120" y="980"/>
-      <p2 x="-100" y="980"/>
+      <p1 x="-520" y="560"/>
+      <p2 x="-480" y="560"/>
     </wire>
     <wire>
-      <p1 x="-100" y="980"/>
-      <p2 x="-80" y="980"/>
+      <p1 x="-900" y="560"/>
+      <p2 x="-660" y="560"/>
     </wire>
     <wire>
-      <p1 x="-260" y="660"/>
-      <p2 x="-220" y="660"/>
+      <p1 x="-260" y="560"/>
+      <p2 x="-20" y="560"/>
     </wire>
     <wire>
-      <p1 x="60" y="660"/>
-      <p2 x="120" y="660"/>
+      <p1 x="-400" y="560"/>
+      <p2 x="-380" y="560"/>
     </wire>
     <wire>
-      <p1 x="-1060" y="660"/>
-      <p2 x="-1020" y="660"/>
+      <p1 x="-180" y="660"/>
+      <p2 x="-160" y="660"/>
     </wire>
     <wire>
-      <p1 x="-160" y="660"/>
-      <p2 x="0" y="660"/>
+      <p1 x="-1200" y="660"/>
+      <p2 x="-1160" y="660"/>
     </wire>
     <wire>
       <p1 x="-400" y="660"/>
       <p2 x="-360" y="660"/>
+    </wire>
+    <wire>
+      <p1 x="-920" y="660"/>
+      <p2 x="-880" y="660"/>
+    </wire>
+    <wire>
+      <p1 x="-680" y="500"/>
+      <p2 x="-660" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="500"/>
+      <p2 x="-540" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="-860" y="500"/>
+      <p2 x="-820" y="500"/>
     </wire>
     <wire>
       <p1 x="-920" y="600"/>
@@ -719,12 +782,20 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-520" y="600"/>
     </wire>
     <wire>
-      <p1 x="-100" y="920"/>
-      <p2 x="-80" y="920"/>
+      <p1 x="-220" y="760"/>
+      <p2 x="-160" y="760"/>
     </wire>
     <wire>
-      <p1 x="-100" y="860"/>
-      <p2 x="-80" y="860"/>
+      <p1 x="-1120" y="760"/>
+      <p2 x="-1040" y="760"/>
+    </wire>
+    <wire>
+      <p1 x="-1040" y="760"/>
+      <p2 x="-900" y="760"/>
+    </wire>
+    <wire>
+      <p1 x="-900" y="440"/>
+      <p2 x="-860" y="440"/>
     </wire>
     <wire>
       <p1 x="-420" y="540"/>
@@ -752,135 +823,39 @@ false finish flags at numbers &gt;= 2^15</string>
     </wire>
     <wire>
       <p1 x="-60" y="540"/>
-      <p2 x="20" y="540"/>
+      <p2 x="-20" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="40" y="540"/>
+      <p2 x="80" y="540"/>
     </wire>
     <wire>
       <p1 x="-400" y="540"/>
       <p2 x="-360" y="540"/>
     </wire>
     <wire>
-      <p1 x="-100" y="800"/>
-      <p2 x="-80" y="800"/>
+      <p1 x="60" y="700"/>
+      <p2 x="120" y="700"/>
     </wire>
     <wire>
-      <p1 x="-880" y="420"/>
-      <p2 x="-860" y="420"/>
-    </wire>
-    <wire>
-      <p1 x="40" y="420"/>
-      <p2 x="100" y="420"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="740"/>
-      <p2 x="-80" y="740"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="680"/>
-      <p2 x="-80" y="680"/>
-    </wire>
-    <wire>
-      <p1 x="-60" y="680"/>
-      <p2 x="0" y="680"/>
-    </wire>
-    <wire>
-      <p1 x="-280" y="680"/>
-      <p2 x="-220" y="680"/>
-    </wire>
-    <wire>
-      <p1 x="-940" y="680"/>
-      <p2 x="-880" y="680"/>
-    </wire>
-    <wire>
-      <p1 x="-820" y="680"/>
-      <p2 x="-400" y="680"/>
-    </wire>
-    <wire>
-      <p1 x="-880" y="680"/>
-      <p2 x="-820" y="680"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="940"/>
-      <p2 x="-80" y="940"/>
-    </wire>
-    <wire>
-      <p1 x="-720" y="620"/>
-      <p2 x="-700" y="620"/>
-    </wire>
-    <wire>
-      <p1 x="-500" y="620"/>
-      <p2 x="-420" y="620"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="880"/>
-      <p2 x="-80" y="880"/>
-    </wire>
-    <wire>
-      <p1 x="-520" y="560"/>
-      <p2 x="-480" y="560"/>
-    </wire>
-    <wire>
-      <p1 x="80" y="560"/>
-      <p2 x="120" y="560"/>
-    </wire>
-    <wire>
-      <p1 x="-900" y="560"/>
-      <p2 x="-660" y="560"/>
-    </wire>
-    <wire>
-      <p1 x="-260" y="560"/>
-      <p2 x="20" y="560"/>
-    </wire>
-    <wire>
-      <p1 x="-400" y="560"/>
-      <p2 x="-380" y="560"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="820"/>
-      <p2 x="-80" y="820"/>
-    </wire>
-    <wire>
-      <p1 x="-680" y="500"/>
-      <p2 x="-660" y="500"/>
-    </wire>
-    <wire>
-      <p1 x="-600" y="500"/>
-      <p2 x="-540" y="500"/>
-    </wire>
-    <wire>
-      <p1 x="-860" y="500"/>
-      <p2 x="-820" y="500"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="760"/>
-      <p2 x="-80" y="760"/>
-    </wire>
-    <wire>
-      <p1 x="-920" y="760"/>
-      <p2 x="-900" y="760"/>
-    </wire>
-    <wire>
-      <p1 x="-900" y="440"/>
-      <p2 x="-860" y="440"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="700"/>
-      <p2 x="-80" y="700"/>
-    </wire>
-    <wire>
-      <p1 x="-20" y="700"/>
+      <p1 x="-80" y="700"/>
       <p2 x="0" y="700"/>
     </wire>
     <wire>
-      <p1 x="-260" y="700"/>
-      <p2 x="-220" y="700"/>
+      <p1 x="-200" y="700"/>
+      <p2 x="-180" y="700"/>
     </wire>
     <wire>
-      <p1 x="-1040" y="700"/>
-      <p2 x="-1020" y="700"/>
+      <p1 x="-1200" y="700"/>
+      <p2 x="-1160" y="700"/>
     </wire>
     <wire>
       <p1 x="-900" y="700"/>
       <p2 x="-400" y="700"/>
+    </wire>
+    <wire>
+      <p1 x="-180" y="700"/>
+      <p2 x="-160" y="700"/>
     </wire>
     <wire>
       <p1 x="-400" y="700"/>
@@ -913,70 +888,6 @@ false finish flags at numbers &gt;= 2^15</string>
     <wire>
       <p1 x="-900" y="560"/>
       <p2 x="-900" y="700"/>
-    </wire>
-    <wire>
-      <p1 x="-260" y="700"/>
-      <p2 x="-260" y="720"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="680"/>
-      <p2 x="-100" y="700"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="780"/>
-      <p2 x="-100" y="800"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="760"/>
-      <p2 x="-100" y="780"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="740"/>
-      <p2 x="-100" y="760"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="720"/>
-      <p2 x="-100" y="740"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="960"/>
-      <p2 x="-100" y="980"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="700"/>
-      <p2 x="-100" y="720"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="940"/>
-      <p2 x="-100" y="960"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="920"/>
-      <p2 x="-100" y="940"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="900"/>
-      <p2 x="-100" y="920"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="880"/>
-      <p2 x="-100" y="900"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="860"/>
-      <p2 x="-100" y="880"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="840"/>
-      <p2 x="-100" y="860"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="820"/>
-      <p2 x="-100" y="840"/>
-    </wire>
-    <wire>
-      <p1 x="-100" y="800"/>
-      <p2 x="-100" y="820"/>
     </wire>
     <wire>
       <p1 x="-520" y="380"/>
@@ -1016,19 +927,23 @@ false finish flags at numbers &gt;= 2^15</string>
     </wire>
     <wire>
       <p1 x="-880" y="420"/>
-      <p2 x="-880" y="680"/>
+      <p2 x="-880" y="660"/>
     </wire>
     <wire>
       <p1 x="-880" y="360"/>
       <p2 x="-880" y="380"/>
     </wire>
     <wire>
-      <p1 x="-1040" y="700"/>
-      <p2 x="-1040" y="720"/>
+      <p1 x="-880" y="660"/>
+      <p2 x="-880" y="680"/>
     </wire>
     <wire>
-      <p1 x="-20" y="700"/>
-      <p2 x="-20" y="740"/>
+      <p1 x="-1040" y="640"/>
+      <p2 x="-1040" y="760"/>
+    </wire>
+    <wire>
+      <p1 x="80" y="520"/>
+      <p2 x="80" y="540"/>
     </wire>
     <wire>
       <p1 x="-500" y="580"/>
@@ -1039,6 +954,22 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-820" y="680"/>
     </wire>
     <wire>
+      <p1 x="-180" y="640"/>
+      <p2 x="-180" y="660"/>
+    </wire>
+    <wire>
+      <p1 x="-180" y="700"/>
+      <p2 x="-180" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="-180" y="740"/>
+      <p2 x="-180" y="780"/>
+    </wire>
+    <wire>
+      <p1 x="-180" y="720"/>
+      <p2 x="-180" y="740"/>
+    </wire>
+    <wire>
       <p1 x="-760" y="400"/>
       <p2 x="-760" y="500"/>
     </wire>
@@ -1047,12 +978,8 @@ false finish flags at numbers &gt;= 2^15</string>
       <p2 x="-280" y="540"/>
     </wire>
     <wire>
-      <p1 x="120" y="640"/>
-      <p2 x="120" y="660"/>
-    </wire>
-    <wire>
-      <p1 x="120" y="520"/>
-      <p2 x="120" y="560"/>
+      <p1 x="120" y="680"/>
+      <p2 x="120" y="700"/>
     </wire>
     <wire>
       <p1 x="-540" y="500"/>
