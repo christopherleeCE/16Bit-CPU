@@ -3145,7 +3145,7 @@
           <string>A_OUT</string>
         </entry>
       </elementAttributes>
-      <pos x="1560" y="-280"/>
+      <pos x="1540" y="-280"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3169,7 +3169,7 @@
           <string>LOAD</string>
         </entry>
       </elementAttributes>
-      <pos x="1560" y="-380"/>
+      <pos x="1540" y="-380"/>
     </visualElement>
     <visualElement>
       <elementName>Out</elementName>
@@ -3250,7 +3250,7 @@
           <string>INSTR</string>
         </entry>
       </elementAttributes>
-      <pos x="1680" y="-240"/>
+      <pos x="1660" y="-240"/>
     </visualElement>
     <visualElement>
       <elementName>Out</elementName>
@@ -3264,7 +3264,7 @@
           <int>32</int>
         </entry>
       </elementAttributes>
-      <pos x="1700" y="-240"/>
+      <pos x="1680" y="-240"/>
     </visualElement>
     <visualElement>
       <elementName>Ground</elementName>
@@ -3274,7 +3274,7 @@
           <rotation rotation="3"/>
         </entry>
       </elementAttributes>
-      <pos x="1500" y="-240"/>
+      <pos x="1480" y="-240"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3312,7 +3312,7 @@
           <int>16</int>
         </entry>
       </elementAttributes>
-      <pos x="1600" y="-280"/>
+      <pos x="1580" y="-280"/>
     </visualElement>
     <visualElement>
       <elementName>And</elementName>
@@ -3328,7 +3328,7 @@
           </inverterConfig>
         </entry>
       </elementAttributes>
-      <pos x="1640" y="-380"/>
+      <pos x="1620" y="-380"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3342,7 +3342,7 @@
           <string>STR</string>
         </entry>
       </elementAttributes>
-      <pos x="1560" y="-320"/>
+      <pos x="1540" y="-320"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3352,7 +3352,7 @@
           <string>LD</string>
         </entry>
       </elementAttributes>
-      <pos x="1740" y="-360"/>
+      <pos x="1720" y="-360"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3362,14 +3362,14 @@
           <string>D</string>
         </entry>
       </elementAttributes>
-      <pos x="1640" y="-280"/>
+      <pos x="1620" y="-280"/>
     </visualElement>
     <visualElement>
       <elementName>RAMSinglePort</elementName>
       <elementAttributes>
         <entry>
           <string>AddrBits</string>
-          <int>16</int>
+          <int>13</int>
         </entry>
         <entry>
           <string>Label</string>
@@ -3412,7 +3412,7 @@
           <string>STR_R</string>
         </entry>
       </elementAttributes>
-      <pos x="1860" y="-400"/>
+      <pos x="1820" y="-380"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3426,7 +3426,7 @@
           <string>CLK</string>
         </entry>
       </elementAttributes>
-      <pos x="1860" y="-360"/>
+      <pos x="1820" y="-360"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3440,7 +3440,7 @@
           <string>LD_R</string>
         </entry>
       </elementAttributes>
-      <pos x="1860" y="-340"/>
+      <pos x="1820" y="-340"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3492,7 +3492,7 @@
           <string>FRB</string>
         </entry>
       </elementAttributes>
-      <pos x="1540" y="-240"/>
+      <pos x="1520" y="-240"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3566,7 +3566,7 @@
           <string>10</string>
         </entry>
       </elementAttributes>
-      <pos x="1840" y="-580"/>
+      <pos x="1820" y="-580"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -3833,7 +3833,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
           <string>STORE</string>
         </entry>
       </elementAttributes>
-      <pos x="1560" y="-340"/>
+      <pos x="1540" y="-340"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -4777,6 +4777,42 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <elementAttributes/>
       <pos x="1000" y="320"/>
     </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>small</string>
+          <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>STOPPED</string>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>dec</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="2660" y="-300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Splitter</elementName>
+      <elementAttributes>
+        <entry>
+          <string>mirror</string>
+          <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Input Splitting</string>
+          <string>16</string>
+        </entry>
+        <entry>
+          <string>Output Splitting</string>
+          <string>13</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1820" y="-420"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -4848,8 +4884,8 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="-600" y="440"/>
     </wire>
     <wire>
-      <p1 x="1580" y="-320"/>
-      <p2 x="1600" y="-340"/>
+      <p1 x="1560" y="-320"/>
+      <p2 x="1580" y="-340"/>
     </wire>
     <wire>
       <p1 x="180" y="80"/>
@@ -4884,10 +4920,6 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1760" y="-560"/>
     </wire>
     <wire>
-      <p1 x="1780" y="-420"/>
-      <p2 x="1760" y="-440"/>
-    </wire>
-    <wire>
       <p1 x="2740" y="-140"/>
       <p2 x="2720" y="-40"/>
     </wire>
@@ -4918,6 +4950,14 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     <wire>
       <p1 x="900" y="320"/>
       <p2 x="820" y="160"/>
+    </wire>
+    <wire>
+      <p1 x="1780" y="-420"/>
+      <p2 x="1760" y="-440"/>
+    </wire>
+    <wire>
+      <p1 x="1860" y="-400"/>
+      <p2 x="1840" y="-380"/>
     </wire>
     <wire>
       <p1 x="1300" y="640"/>
@@ -5141,11 +5181,11 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1080" y="140"/>
-      <p2 x="1100" y="140"/>
+      <p2 x="1120" y="140"/>
     </wire>
     <wire>
       <p1 x="1420" y="140"/>
-      <p2 x="1460" y="140"/>
+      <p2 x="1440" y="140"/>
     </wire>
     <wire>
       <p1 x="1300" y="140"/>
@@ -5153,7 +5193,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1760" y="140"/>
-      <p2 x="1780" y="140"/>
+      <p2 x="1800" y="140"/>
     </wire>
     <wire>
       <p1 x="1640" y="140"/>
@@ -5161,7 +5201,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="2100" y="140"/>
-      <p2 x="2140" y="140"/>
+      <p2 x="2120" y="140"/>
     </wire>
     <wire>
       <p1 x="1980" y="140"/>
@@ -5172,16 +5212,12 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="720" y="140"/>
     </wire>
     <wire>
-      <p1 x="1780" y="140"/>
-      <p2 x="1800" y="140"/>
+      <p1 x="1440" y="140"/>
+      <p2 x="1460" y="140"/>
     </wire>
     <wire>
-      <p1 x="1100" y="140"/>
-      <p2 x="1120" y="140"/>
-    </wire>
-    <wire>
-      <p1 x="1860" y="-400"/>
-      <p2 x="1880" y="-400"/>
+      <p1 x="2120" y="140"/>
+      <p2 x="2140" y="140"/>
     </wire>
     <wire>
       <p1 x="2320" y="-400"/>
@@ -5190,6 +5226,10 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     <wire>
       <p1 x="2560" y="-400"/>
       <p2 x="2580" y="-400"/>
+    </wire>
+    <wire>
+      <p1 x="1860" y="-400"/>
+      <p2 x="1880" y="-400"/>
     </wire>
     <wire>
       <p1 x="960" y="400"/>
@@ -5332,12 +5372,12 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1380" y="-280"/>
     </wire>
     <wire>
-      <p1 x="1620" y="-280"/>
-      <p2 x="1640" y="-280"/>
+      <p1 x="1600" y="-280"/>
+      <p2 x="1620" y="-280"/>
     </wire>
     <wire>
-      <p1 x="1560" y="-280"/>
-      <p2 x="1580" y="-280"/>
+      <p1 x="1540" y="-280"/>
+      <p2 x="1560" y="-280"/>
     </wire>
     <wire>
       <p1 x="1260" y="-280"/>
@@ -5596,8 +5636,12 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1360" y="-420"/>
     </wire>
     <wire>
-      <p1 x="1780" y="-420"/>
+      <p1 x="1840" y="-420"/>
       <p2 x="1880" y="-420"/>
+    </wire>
+    <wire>
+      <p1 x="1780" y="-420"/>
+      <p2 x="1820" y="-420"/>
     </wire>
     <wire>
       <p1 x="1980" y="420"/>
@@ -5706,6 +5750,10 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     <wire>
       <p1 x="2580" y="-300"/>
       <p2 x="2620" y="-300"/>
+    </wire>
+    <wire>
+      <p1 x="2620" y="-300"/>
+      <p2 x="2660" y="-300"/>
     </wire>
     <wire>
       <p1 x="1060" y="940"/>
@@ -5909,7 +5957,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1420" y="-60"/>
-      <p2 x="1460" y="-60"/>
+      <p2 x="1440" y="-60"/>
     </wire>
     <wire>
       <p1 x="1300" y="-60"/>
@@ -5921,7 +5969,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1760" y="-60"/>
-      <p2 x="1780" y="-60"/>
+      <p2 x="1800" y="-60"/>
     </wire>
     <wire>
       <p1 x="1640" y="-60"/>
@@ -5929,19 +5977,23 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="2100" y="-60"/>
-      <p2 x="2140" y="-60"/>
+      <p2 x="2120" y="-60"/>
     </wire>
     <wire>
       <p1 x="1980" y="-60"/>
       <p2 x="2020" y="-60"/>
     </wire>
     <wire>
-      <p1 x="260" y="-60"/>
-      <p2 x="360" y="-60"/>
+      <p1 x="1440" y="-60"/>
+      <p2 x="1460" y="-60"/>
     </wire>
     <wire>
-      <p1 x="1780" y="-60"/>
-      <p2 x="1800" y="-60"/>
+      <p1 x="2120" y="-60"/>
+      <p2 x="2140" y="-60"/>
+    </wire>
+    <wire>
+      <p1 x="260" y="-60"/>
+      <p2 x="360" y="-60"/>
     </wire>
     <wire>
       <p1 x="60" y="700"/>
@@ -5968,8 +6020,8 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="460" y="60"/>
     </wire>
     <wire>
-      <p1 x="1560" y="-320"/>
-      <p2 x="1580" y="-320"/>
+      <p1 x="1540" y="-320"/>
+      <p2 x="1560" y="-320"/>
     </wire>
     <wire>
       <p1 x="2400" y="-320"/>
@@ -6024,7 +6076,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1000" y="320"/>
     </wire>
     <wire>
-      <p1 x="1860" y="-580"/>
+      <p1 x="1840" y="-580"/>
       <p2 x="1880" y="-580"/>
     </wire>
     <wire>
@@ -6033,7 +6085,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1780" y="-580"/>
-      <p2 x="1840" y="-580"/>
+      <p2 x="1820" y="-580"/>
     </wire>
     <wire>
       <p1 x="2600" y="-580"/>
@@ -6348,11 +6400,11 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1380" y="-340"/>
     </wire>
     <wire>
-      <p1 x="1560" y="-340"/>
-      <p2 x="1600" y="-340"/>
+      <p1 x="1540" y="-340"/>
+      <p2 x="1580" y="-340"/>
     </wire>
     <wire>
-      <p1 x="1860" y="-340"/>
+      <p1 x="1820" y="-340"/>
       <p2 x="1880" y="-340"/>
     </wire>
     <wire>
@@ -6360,8 +6412,8 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="2480" y="-340"/>
     </wire>
     <wire>
-      <p1 x="1600" y="-340"/>
-      <p2 x="1620" y="-340"/>
+      <p1 x="1580" y="-340"/>
+      <p2 x="1600" y="-340"/>
     </wire>
     <wire>
       <p1 x="1100" y="980"/>
@@ -6373,7 +6425,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="2100" y="340"/>
-      <p2 x="2140" y="340"/>
+      <p2 x="2120" y="340"/>
     </wire>
     <wire>
       <p1 x="1980" y="340"/>
@@ -6389,11 +6441,11 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1080" y="340"/>
-      <p2 x="1100" y="340"/>
+      <p2 x="1120" y="340"/>
     </wire>
     <wire>
       <p1 x="1760" y="340"/>
-      <p2 x="1780" y="340"/>
+      <p2 x="1800" y="340"/>
     </wire>
     <wire>
       <p1 x="1640" y="340"/>
@@ -6416,12 +6468,8 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="720" y="340"/>
     </wire>
     <wire>
-      <p1 x="1100" y="340"/>
-      <p2 x="1120" y="340"/>
-    </wire>
-    <wire>
-      <p1 x="1780" y="340"/>
-      <p2 x="1800" y="340"/>
+      <p1 x="2120" y="340"/>
+      <p2 x="2140" y="340"/>
     </wire>
     <wire>
       <p1 x="-500" y="340"/>
@@ -6620,11 +6668,11 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1380" y="-360"/>
     </wire>
     <wire>
-      <p1 x="1720" y="-360"/>
-      <p2 x="1740" y="-360"/>
+      <p1 x="1700" y="-360"/>
+      <p2 x="1720" y="-360"/>
     </wire>
     <wire>
-      <p1 x="1860" y="-360"/>
+      <p1 x="1820" y="-360"/>
       <p2 x="1880" y="-360"/>
     </wire>
     <wire>
@@ -6680,12 +6728,12 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="720" y="360"/>
     </wire>
     <wire>
-      <p1 x="-400" y="360"/>
-      <p2 x="-380" y="360"/>
-    </wire>
-    <wire>
       <p1 x="780" y="360"/>
       <p2 x="800" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="-400" y="360"/>
+      <p2 x="-380" y="360"/>
     </wire>
     <wire>
       <p1 x="-360" y="360"/>
@@ -6768,12 +6816,12 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="2480" y="-240"/>
     </wire>
     <wire>
-      <p1 x="1500" y="-240"/>
-      <p2 x="1540" y="-240"/>
+      <p1 x="1480" y="-240"/>
+      <p2 x="1520" y="-240"/>
     </wire>
     <wire>
-      <p1 x="1680" y="-240"/>
-      <p2 x="1700" y="-240"/>
+      <p1 x="1660" y="-240"/>
+      <p2 x="1680" y="-240"/>
     </wire>
     <wire>
       <p1 x="440" y="-240"/>
@@ -6988,12 +7036,16 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1000" y="120"/>
     </wire>
     <wire>
-      <p1 x="1560" y="-380"/>
-      <p2 x="1640" y="-380"/>
+      <p1 x="1540" y="-380"/>
+      <p2 x="1620" y="-380"/>
     </wire>
     <wire>
       <p1 x="1940" y="-380"/>
       <p2 x="1980" y="-380"/>
+    </wire>
+    <wire>
+      <p1 x="1820" y="-380"/>
+      <p2 x="1840" y="-380"/>
     </wire>
     <wire>
       <p1 x="1980" y="-380"/>
@@ -7257,18 +7309,10 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1440" y="-80"/>
-      <p2 x="1440" y="-60"/>
-    </wire>
-    <wire>
-      <p1 x="1440" y="-60"/>
       <p2 x="1440" y="120"/>
     </wire>
     <wire>
       <p1 x="1440" y="120"/>
-      <p2 x="1440" y="140"/>
-    </wire>
-    <wire>
-      <p1 x="1440" y="140"/>
       <p2 x="1440" y="320"/>
     </wire>
     <wire>
@@ -7366,6 +7410,10 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     <wire>
       <p1 x="2220" y="800"/>
       <p2 x="2220" y="820"/>
+    </wire>
+    <wire>
+      <p1 x="1580" y="-340"/>
+      <p2 x="1580" y="-300"/>
     </wire>
     <wire>
       <p1 x="1200" y="-420"/>
@@ -7496,10 +7544,6 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
       <p2 x="1600" y="60"/>
     </wire>
     <wire>
-      <p1 x="1600" y="-340"/>
-      <p2 x="1600" y="-300"/>
-    </wire>
-    <wire>
       <p1 x="-200" y="320"/>
       <p2 x="-200" y="360"/>
     </wire>
@@ -7525,26 +7569,14 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="2120" y="-80"/>
-      <p2 x="2120" y="-60"/>
-    </wire>
-    <wire>
-      <p1 x="2120" y="-60"/>
       <p2 x="2120" y="120"/>
     </wire>
     <wire>
       <p1 x="2120" y="120"/>
-      <p2 x="2120" y="140"/>
-    </wire>
-    <wire>
-      <p1 x="2120" y="140"/>
       <p2 x="2120" y="320"/>
     </wire>
     <wire>
       <p1 x="2120" y="320"/>
-      <p2 x="2120" y="340"/>
-    </wire>
-    <wire>
-      <p1 x="2120" y="340"/>
       <p2 x="2120" y="520"/>
     </wire>
     <wire>
@@ -7577,10 +7609,18 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1100" y="120"/>
+      <p2 x="1100" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="1100" y="140"/>
       <p2 x="1100" y="320"/>
     </wire>
     <wire>
       <p1 x="1100" y="320"/>
+      <p2 x="1100" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="1100" y="340"/>
       <p2 x="1100" y="520"/>
     </wire>
     <wire>
@@ -7777,14 +7817,26 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
     </wire>
     <wire>
       <p1 x="1780" y="120"/>
+      <p2 x="1780" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="1780" y="140"/>
       <p2 x="1780" y="320"/>
     </wire>
     <wire>
       <p1 x="1780" y="320"/>
+      <p2 x="1780" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="1780" y="340"/>
       <p2 x="1780" y="520"/>
     </wire>
     <wire>
       <p1 x="1780" y="-80"/>
+      <p2 x="1780" y="-60"/>
+    </wire>
+    <wire>
+      <p1 x="1780" y="-60"/>
       <p2 x="1780" y="120"/>
     </wire>
     <wire>
