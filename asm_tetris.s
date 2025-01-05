@@ -10,7 +10,7 @@ INIT:
     JAL FILL_BACKROUND: LR
 
     #debug
-    JAL DEBUG_FILL: LR
+    #JAL DEBUG_FILL: LR
 
     #begining game loop
     JMP START:
@@ -503,8 +503,8 @@ INIT_VARS:
     #lowest collision point
     LOAD_RAM 020E 0000
 
-    #padding between stack and vars
-    LOAD_RAM 020F FAFA
+    #was moved
+    LOAD_RAM 020F 0000
 
     #has landed
     LOAD_RAM 0210 0000
@@ -513,9 +513,12 @@ INIT_VARS:
     LW G0 ZERO 020D
     SW ZERO G0 0211
 
+    #wait_time about half second
+    LOAD_RAM 0212 0500
+
     #init stack_ptr
-    LOAD_RAM 0212 FAFA
-    MOV SP 0212
+    LOAD_RAM 0213 FAFA
+    MOV SP 0213
 
     #ret
     JR LR
@@ -1285,14 +1288,14 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
 #does stuff :)
 PIECE_LANDED: #no args
 
-    LW G0 ZERO 0200
-    LW G1 ZERO 0201
-    LW G2 ZERO 020D
-    JAL DRAW_SPRITE: LR 
+    #piece_landed = 0; & reset fallspeed
+    MOV G0 0500
+    SW ZERO ZERO 0210
+    SW  ZERO G0 0212
 
     #loading current pos into last placement location (uses last_pos from memory due to the way collsion is checked)
-    LW G0 ZERO 0200
-    LW G1 ZERO 0201
+    LW G0 ZERO 0202
+    LW G1 ZERO 0203
     SW ZERO G0 020B
     SW ZERO G1 020C
 
@@ -1553,16 +1556,22 @@ START:
     JAL COLLISION_CHECK: LR
     SW ZERO G0 0210 #store result
 
+    #if col == 1 revert current pos, jump to wait loop
+    BEQ G0 ZERO COL_RET_ONE:
+        LW G0 ZERO 0200
+        LW G1 ZERO 0201
+        SW ZERO G0 0202
+        SW ZERO G1 0203
+        
+        JMP WAIT:
+    COL_RET_ONE:
+
+
     #clear sprite from last fram
     LW G0 ZERO 0200
     LW G1 ZERO 0201
     LW G2 ZERO 0211
     JAL CLEAR_SPRITE: LR
-
-    #piece_landed() if collsion == 1
-    LW G0 ZERO 0210
-    SW ZERO ZERO 0210
-    BNE G0 ZERO PIECE_LANDED:
 
     #draw sprite for this frame
     LW G0 ZERO 0202
@@ -1576,181 +1585,206 @@ START:
 
     #wait and poll for inputs before moving piece down for G0 clock cycles
     MOV CLK 0000
-    MOV G0 0100         #
-    SW SP G0 0001
-    ADDI SP SP 0001
 
-    WAIT: #while time < 
-    BGT CLK G0 CONT_MAIN:
-    BEQ KB ZERO WAIT: #if keyboard input
+    WAIT: #while time < loop through wait()
+        BGT CLK G0 CONT_MAIN:
+        # BEQ KB ZERO WAIT: #if keyboard input do stuff
 
-    #load current pos & store in last pos
-    LW G0 ZERO 0202
-    LW G1 ZERO 0203
-    SW ZER0 G0 0200
-    SW ZERO G1 0201
+        #load current pos & store in last pos
+        LW G0 ZERO 0202
+        LW G1 ZERO 0203
+        SW ZER0 G0 0200
+        SW ZERO G1 0201
 
+        #"instant" fall
+        MOV G4 0077
+        BNE KB G4 INSTANT_FALL:
 
-    #move left
-    MOV G4 0061
-    BNE KB G4 LEFT:
-    SUBI G0 G0 0001
+            #was_moved = 1; & clear KB reg
+            MOV G4 0000
+            SW ZERO G4 0212
+            MOV KB 0000
 
-    #store current pos in stack
-    SW SP G0 0001
-    SW SP G1 0002
-    ADDI SP SP 0002
-
-    #colission check
-    LW G2 ZERO 020D
-    ADDI G2 G2 0020
-    JAL COLLISION_CHECK: LR
-
-    #move return to g2
-    ADD G2 G0 ZERO
-
-    #popping stack twice, and moving pos left by collision result
-    #so if col == 0 dont move, if coll == 1 move left 1
-    LW G1 SP 0000
-    LW G0 SP FFFF
-    SUBI SP SP 0002
-    ADD G0 G0 G2
-    LEFT:
+        INSTANT_FALL:
 
 
-    #move right
-    MOV G4 0064
-    BNE KB G4 RIGHT:
-    ADDI G0 G0 0001
+        #move left
+        MOV G4 0061
+        BNE KB G4 LEFT:
 
-    #store current pos in stack
-    SW SP G0 0001
-    SW SP G1 0002
-    ADDI SP SP 0002
+            #was_moved = 1; & clear KB reg
+            MOV G4 0001
+            SW ZERO G4 020F
+            MOV KB 0000
 
-    #colission check
-    LW G2 ZERO 020D
-    ADDI G2 G2 0020
-    JAL COLLISION_CHECK: LR
+            #move piece
+            SUBI G0 G0 0001
 
-    #move return to g2
-    ADD G2 G0 ZERO
+            #store current pos in stack
+            SW SP G0 0001
+            SW SP G1 0002
+            ADDI SP SP 0002
 
-    #popping stack twice, and moving pos left by collision result
-    #so if col == 0 dont move, if coll == 1 move left 1
-    LW G1 SP 0000
-    LW G0 SP FFFF
-    SUBI SP SP 0002
-    SUB G0 G0 G2
-    RIGHT:
+            #colission check
+            LW G2 ZERO 020D
+            ADDI G2 G2 0020
+            JAL COLLISION_CHECK: LR
 
+            #move return to g2
+            ADD G2 G0 ZERO
 
-    LW G7 ZERO 020D         #load sprite_ptr
-    SW ZERO G7 0211         #store in last sprite
+            #popping stack twice, and moving pos left by collision result
+            #so if col == 0 dont move, if coll == 1 move left 1
+            LW G1 SP 0000
+            LW G0 SP FFFF
+            SUBI SP SP 0002
+            ADD G0 G0 G2
 
-    #rotate piece clockwise
-    MOV G4 0020
-    BNE KB G4 ROTATE:
-
-        LW G7 ZERO 020D     #load sprite_ptr
-        ADDI G7 G7 0005     #rotate by 90 CW
-        MOV G4 003F         #mask for 6lsb
-        AND G5 G7 G4        #using mask
-        MOV G4 0014         #const in = 0x0014
-
-        #if sprite_ptr is 0x0014 + ii*0x0040
-        BNE G5 G4 RESET_ROTATE:
-
-        #reset rotation
-        SUBI G7 G7 0014     
-        RESET_ROTATE:
-
-        #overrite sprite_ptr
-        SW ZERO G7 020D
+        LEFT:
 
 
-        REPEAT_COLLISION_CHECK:
+        #move right
+        MOV G4 0064
+        BNE KB G4 RIGHT:
 
-        #store current pos in stack
-        SW SP G0 0001
-        SW SP G1 0002
-        ADDI SP SP 0002
+            #was_moved = 1; & clear KB reg
+            MOV G4 0001
+            SW ZERO G4 020F
+            MOV KB 0000
 
-        #colission check
-        LW G2 ZERO 020D
-        ADDI G2 G2 0020
-        JAL COLLISION_CHECK: LR
+            #move piece
+            ADDI G0 G0 0001
 
-        #move return to g2
-        ADD G2 G0 ZERO
+            #store current pos in stack
+            SW SP G0 0001
+            SW SP G1 0002
+            ADDI SP SP 0002
 
-        #popping stack twice for x & y
-        LW G1 SP 0000
-        LW G0 SP FFFF
-        SUBI SP SP 0002
+            #colission check
+            LW G2 ZERO 020D
+            ADDI G2 G2 0020
+            JAL COLLISION_CHECK: LR
 
-        #if on left side of screen, move right by collision result
-        #if on right move left by collision result
-        #in both cases move up by collsion result <- THIS IS A FEATURE!!!
-        #repeate until collision result equals zero
-        MOV G3 0004
-        BLT G0 G3 RESET_CONT:
+            #move return to g2
+            ADD G2 G0 ZERO
 
-        SUB G0 G0 G2
+            #popping stack twice, and moving pos left by collision result
+            #so if col == 0 dont move, if coll == 1 move left 1
+            LW G1 SP 0000
+            LW G0 SP FFFF
+            SUBI SP SP 0002
+            SUB G0 G0 G2
 
-        JMP RESET_CONT_CONT:
-        RESET_CONT:
- 
-        ADD G0 G0 G2
-
-        RESET_CONT_CONT:
-
-        SUB G1 G1 G2
-
-        BNE G2 ZERO REPEAT_COLLISION_CHECK:
+        RIGHT:
 
 
+        LW G7 ZERO 020D         #load sprite_ptr
+        SW ZERO G7 0211         #store in last sprite
+
+        #rotate piece clockwise
+        MOV G4 0020
+        BNE KB G4 ROTATE:
+
+            #was_moved = 1; & clear KB reg
+            MOV G4 0001
+            SW ZERO G4 020F
+            MOV KB 0000
+
+            LW G7 ZERO 020D     #load sprite_ptr
+            ADDI G7 G7 0005     #rotate by 90 CW
+            MOV G4 003F         #mask for 6lsb
+            AND G5 G7 G4        #using mask
+            MOV G4 0014         #const in = 0x0014
+
+            #if sprite_ptr is 0x0014 + ii*0x0040
+            BNE G5 G4 RESET_ROTATE:
+
+            #reset rotation
+            SUBI G7 G7 0014     
+            RESET_ROTATE:
+
+            #overrite sprite_ptr
+            SW ZERO G7 020D
 
 
+            REPEAT_COLLISION_CHECK:
 
+            #store current pos in stack
+            SW SP G0 0001
+            SW SP G1 0002
+            ADDI SP SP 0002
 
-    ROTATE:
+            #colission check
+            LW G2 ZERO 020D
+            ADDI G2 G2 0020
+            JAL COLLISION_CHECK: LR
 
-    #save current pos in ram
-    SW ZERO G0 0202
-    SW ZERO G1 0203
+            #move return to g2
+            ADD G2 G0 ZERO
 
+            #popping stack twice for x & y
+            LW G1 SP 0000
+            LW G0 SP FFFF
+            SUBI SP SP 0002
 
-    #draw after moved moved
+            #if on left side of screen, move right by collision result
+            #if on right move left by collision result
+            #in both cases move up by collsion result <- THIS IS A FEATURE!!!
+            #repeate until collision result equals zero
+            MOV G3 0004
+            BLT G0 G3 RESET_CONT:
 
-    #clear sprite from last frame
-    LW G0 ZERO 0200
-    LW G1 ZERO 0201
-    LW G2 ZERO 0211
-    JAL CLEAR_SPRITE: LR
+            SUB G0 G0 G2
 
-    #draw sprite for this frame
-    LW G0 ZERO 0202
-    LW G1 ZERO 0203
-    LW G2 ZERO 020D
-    JAL DRAW_SPRITE: LR
+            JMP RESET_CONT_CONT:
+            RESET_CONT:
+    
+            ADD G0 G0 G2
 
-    LW G0 SP 0000
-    MOV KB 0000
+            RESET_CONT_CONT:
+
+            SUB G1 G1 G2
+
+            BNE G2 ZERO REPEAT_COLLISION_CHECK:
+
+        ROTATE:
+
+        #save current pos in ram
+        SW ZERO G0 0202
+        SW ZERO G1 0203
+
+        #draw after moved moved (yes moved moved very diffrent from moved, very important, will be on the exam)
+        LW G0 ZERO 020F
+        BEQ G0 ZERO PIECE_MOVED:
+
+            #was_moved = 0;
+            MOV G0 0000
+            SW ZERO G0 020F
+
+            #clear sprite from last frame
+            LW G0 ZERO 0200
+            LW G1 ZERO 0201
+            LW G2 ZERO 0211
+            JAL CLEAR_SPRITE: LR
+
+            #draw sprite for this frame
+            LW G0 ZERO 0202
+            LW G1 ZERO 0203
+            LW G2 ZERO 020D
+            JAL DRAW_SPRITE: LR
+
+        PIECE_MOVED:
+
+        LW G0 ZERO 0212
     BLT CLK G0 WAIT: #end_while
-
-
-
-
-
-
-
-
-
 
     #move down one pixel & store current and last pos
     CONT_MAIN:
-    SUBI SP SP 0001
+
+    #if(piece_landed == 1) {piece_landed();}
+    LW G0 ZERO 0210
+    BNE G0 ZERO PIECE_LANDED:
+
     LW G0 ZERO 0202
     LW G1 ZERO 0203
     SW ZERO G0 0200     #todo remove l8r
