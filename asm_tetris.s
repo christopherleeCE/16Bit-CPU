@@ -491,7 +491,9 @@ INIT_VARS:
     LOAD_RAM 0207 FFFF
     LOAD_RAM 0208 FFFF
     LOAD_RAM 0209 FFFF
-    LOAD_RAM 020A FAFA  #padding so faster method can be used in PIECE_LANDED_FOR3
+
+    #next piece
+    LOAD_RAM 020A 0040
     
     #last pLacement location
     LOAD_RAM 020B FFFF
@@ -640,7 +642,6 @@ FILL_BACKROUND: #no args
     #temp regs
     MOV G0 0001
     MOV G1 0047
-    MOV G2 FFFF
 
     #center
     SW ZERO G0 8003
@@ -952,6 +953,42 @@ FILL_BACKROUND: #no args
     SW ZERO G1 801F
     SW ZERO G1 800F
 
+    SW ZERO G1 8130
+    SW ZERO G1 8131
+    SW ZERO G1 8132
+    SW ZERO G1 8133
+    SW ZERO G1 8134
+    SW ZERO G1 8135
+    SW ZERO G1 8136
+    SW ZERO G1 8137
+    SW ZERO G1 8138
+    SW ZERO G1 8139
+    SW ZERO G1 813A
+    SW ZERO G1 813B
+    SW ZERO G1 813C
+    SW ZERO G1 813D
+    SW ZERO G1 813E
+    SW ZERO G1 813F
+
+    #draw next piece and stored piece in bottom right
+    SW SP LR 0001
+    ADDI SP SP 0001
+    MOV G0 000B
+    MOV G1 0010
+    MOV G2 0040
+    JAL DRAW_SPRITE: LR
+    LW LR SP 0000
+    SUBI SP SP 0001
+
+    SW SP LR 0001
+    ADDI SP SP 0001
+    MOV G0 0001
+    MOV G1 0010
+    MOV G2 0000
+    JAL DRAW_SPRITE: LR
+    LW LR SP 0000
+    SUBI SP SP 0001
+
     #floor collsion & wall collision
     SW ZERO G2 1002
     SW ZERO G2 1012
@@ -1192,6 +1229,38 @@ CLEAR_SPRITE: #G0(x) G1(y) G2(sprite_ptr)
     ADD G3 G3 G1        #G3 = 0x80YX
 
     MOV G0 0001         #G0 = black
+
+    ADDI G2 G2 0001     #inc sprite_ptr
+    LW G1 G2 0000       #next pixel (sprite cord) to write to
+    ADD G1 G1 G3        #shifting g1 to vram cord
+    SW G1 G0 0000       #store in vram
+    
+    ADDI G2 G2 0001     #repeate w/o for loop 4 preformance
+    LW G1 G2 0000
+    ADD G1 G1 G3
+    SW G1 G0 0000
+    
+    ADDI G2 G2 0001
+    LW G1 G2 0000
+    ADD G1 G1 G3
+    SW G1 G0 0000
+    
+    ADDI G2 G2 0001
+    LW G1 G2 0000
+    ADD G1 G1 G3
+    SW G1 G0 0000
+
+    JR LR               #ret
+
+#clears sprite to blue
+CLEAR_SPRTIE_BLUE:
+
+    MOV G3 8000         #vram_ptr init to (0,0)
+    MULI G1 G1 0010     #shifting y pos left by 1 4bits
+    ADD G3 G3 G0        #adding x and y(shifted) pos to vram addr
+    ADD G3 G3 G1        #G3 = 0x80YX
+
+    MOV G0 0047         #G0 = backround blue
 
     ADDI G2 G2 0001     #inc sprite_ptr
     LW G1 G2 0000       #next pixel (sprite cord) to write to
@@ -1571,6 +1640,7 @@ NEW_PIECE:
     #temp regs
     MOV G0 0006
     MOV G1 0000
+    MOV G2 0001
     MOV G7 FFFF
 
     #reseting pos
@@ -1579,27 +1649,41 @@ NEW_PIECE:
     SW ZERO G0 0202
     SW ZERO ZERO 0203
     SW ZERO G0 0204
-    SW ZERO G1 0205
+    SW ZERO G2 0205
 
-    #current_sprite + (3lsb of rng) * 0x0040
+    #G5 = current_sprite + (3lsb of rng) * 0x0040
     LW G0 ZERO 0214
     LW G2 ZERO 020D
     MOV G1 0007
     AND G4 CLK G1
     MULI G4 G4 0040
-    ADD G2 G2 G4
+    ADD G5 G2 G4
 
-    #if(current_sprite >= 0x01C0) {current_sprite = current_sprite - 0x01C0}
-    MOV G5 01C0
-    BLT G2 G5 NEW_PIECE_CONT:
+    #if(G5 >= 0x01C0) {G5 = G5 - 0x01C0}
+    MOV G2 01C0
+    BLT G5 G2 NEW_PIECE_CONT:
 
-        SUB G2 G2 G5
+        SUB G5 G5 G2
 
     NEW_PIECE_CONT:
+    MOV G4 FFF0         #reseting rotation
+    AND G5 G5 G4        #<----------------
+    LW G4 ZERO 020A
+    #at this point G4 = "last" next_piece & G5 = "curent" next_piece
 
-    #store current and last sprite in ram
-    SW ZERO G2 020D
-    SW ZERO G2 0211
+    #redraw the "next piece" display in the bottom right
+    MOV G0 000B
+    MOV G1 0010
+    ADD G2 ZERO G4
+    JAL CLEAR_SPRTIE_BLUE: LR
+    MOV G0 000B
+    MOV G1 0010
+    ADD G2 ZERO G5
+    JAL DRAW_SPRITE: LR
+
+    SW ZERO G4 020D
+    SW ZERO G4 0211
+    SW ZERO G5 020A
 
     JMP WHILE_TRUE:
 
@@ -1660,11 +1744,6 @@ START:
         MOV G4 0073
         BNE KB G4 FAST_FALL:
 
-            #inc rng
-            LW G4 ZERO 0214
-            ADDI G4 G4 0001
-            SW ZERO G4 0214
-
             #clear KB reg & time = 0
             MOV G4 0000
             SW ZERO G4 0212
@@ -1673,12 +1752,6 @@ START:
         FAST_FALL:
         MOV G4 0077
         BNE KB G4 STOP_FAST_FALL:
-
-            #inc rng
-            LW G4 ZERO 0214
-            ADDI G4 G4 0001
-            SW ZERO G4 0214
-
 
             #was_moved = 1; & clear KB reg
             MOV G4 0500
@@ -1691,11 +1764,6 @@ START:
         #move left
         MOV G4 0061
         BNE KB G4 LEFT:
-
-            #inc rng
-            LW G4 ZERO 0214
-            ADDI G4 G4 0001
-            SW ZERO G4 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
@@ -1731,11 +1799,6 @@ START:
         #move right
         MOV G4 0064
         BNE KB G4 RIGHT:
-
-            #inc rng
-            LW G4 ZERO 0214
-            ADDI G4 G4 0001
-            SW ZERO G4 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
@@ -1774,11 +1837,6 @@ START:
         #rotate piece clockwise
         MOV G4 0020
         BNE KB G4 ROTATE:
-
-            #inc rng
-            LW G4 ZERO 0214
-            ADDI G4 G4 0001
-            SW ZERO G4 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
@@ -1848,23 +1906,45 @@ START:
         MOV G4 0076
         BNE KB G4 SWAP_PIECE:
 
-            #inc rng
-            LW G4 ZERO 0214
-            ADDI G4 G4 0001
-            SW ZERO G4 0214
-
             #was_moved = 1; & clear KB reg
             MOV G4 0001
             SW ZERO G4 020F
             MOV KB 0000
 
-            #swap current piece and stored piece
+            #loading current and stored piece
             LW G4 ZERO 0213
             LW G7 ZERO 020D
+
+            #store current pos in stack
+            SW SP G0 0001
+            SW SP G1 0002
+            ADDI SP SP 0002
+
+            #redraw stored piece display in bottom left
+            MOV G0 0001
+            MOV G1 0010
+            ADD G2 G4 ZERO
+            JAL CLEAR_SPRTIE_BLUE: LR
+
+            MOV G2 FFF0         #reseting rotation
+            AND G7 G7 G2        #<----------------
+
+            MOV G0 0001
+            MOV G1 0010
+            ADD G2 G7 ZERO
+            JAL DRAW_SPRITE: LR
+
+            #spwaping current and stored piece
             SW ZERO G4 020D
             SW ZERO G7 0213
 
+            #pop current pos from stack
+            LW G1 SP 0000
+            LW G0 SP FFFF
+            SUBI SP SP 0002
+
         SWAP_PIECE:
+
 
         #save current pos in ram
         SW ZERO G0 0202

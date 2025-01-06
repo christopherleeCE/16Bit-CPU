@@ -3387,7 +3387,7 @@
       <elementAttributes>
         <entry>
           <string>graphicHeight</string>
-          <int>19</int>
+          <int>20</int>
         </entry>
         <entry>
           <string>graphicWidth</string>
@@ -4093,7 +4093,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
         </entry>
         <entry>
           <string>InDefault</string>
-          <value v="-1" z="false"/>
+          <value v="1878" z="false"/>
         </entry>
       </elementAttributes>
       <pos x="2320" y="-400"/>
@@ -4168,10 +4168,6 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
         <entry>
           <string>Label</string>
           <string>RUN</string>
-        </entry>
-        <entry>
-          <string>InDefault</string>
-          <value v="1" z="false"/>
         </entry>
       </elementAttributes>
       <pos x="2320" y="-240"/>
