@@ -4,6 +4,8 @@
 # - increase collisoion at top of screen
 # - fix collision in upper part of piece
 # - game over
+# - fix graphical bug
+# - rotate after piece land bug
 
 INIT:
 
