@@ -1,3 +1,5 @@
+#TODO: level progression and score tracking
+
 INIT:
 
     #loading sprites :)
@@ -524,9 +526,13 @@ INIT_VARS:
     #rng
     LOAD_RAM 0214 0000
 
+    #level & score
+    LOAD_RAM 0215 0000
+    LOAD_RAM 0216 0000
+
     #init stack_ptr 
-    LOAD_RAM 0215 FAFA
-    MOV SP 0215
+    LOAD_RAM 0217 FAFA
+    MOV SP 0217
 
     #ret
     JR LR
@@ -1724,12 +1730,14 @@ START:
     LW G2 ZERO 020D
     JAL DRAW_SPRITE: LR
 
-    #0x0041 = 'a'
-    #0x0044 = 'd'
-    #0x0020 = 'SPACE'
-
     #wait and poll for inputs before moving piece down for G0 clock cycles
     MOV CLK 0000
+
+    # 0x0077 = 's'
+    # 0x0061 = 'a'
+    # 0x0064 = 'd'
+    # 0x0020 = 'SPACE'
+    # 0x0076 = 'v'
 
     WAIT: #while time < loop through wait()
 
