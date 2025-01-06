@@ -513,12 +513,18 @@ INIT_VARS:
     LW G0 ZERO 020D
     SW ZERO G0 0211
 
-    #wait_time about half second
+    #wait_time
     LOAD_RAM 0212 0500
 
-    #init stack_ptr
-    LOAD_RAM 0213 FAFA
-    MOV SP 0213
+    #saved_piece
+    LOAD_RAM 0213 0000
+
+    #rng
+    LOAD_RAM 0214 0000
+
+    #init stack_ptr 
+    LOAD_RAM 0215 FAFA
+    MOV SP 0215
 
     #ret
     JR LR
@@ -526,65 +532,105 @@ INIT_VARS:
 #debug :)
 DEBUG_FILL:
 
-    LOAD_RAM 80F3 0002
-    LOAD_RAM 80F4 0002
-    LOAD_RAM 80F5 0002
-    LOAD_RAM 80F6 0002
-
-    LOAD_RAM 80F9 0002
-    LOAD_RAM 80FA 0002
-    LOAD_RAM 80FB 0002
-    LOAD_RAM 80FC 0002
-
-    LOAD_RAM 80E3 0002
-    LOAD_RAM 80E4 0002
-    LOAD_RAM 80E5 0002
-    LOAD_RAM 80E6 0002
-
-    LOAD_RAM 80E9 0002
-    LOAD_RAM 80EA 0002
-    LOAD_RAM 80EB 0002
-    LOAD_RAM 80EC 0002
-
-    LOAD_RAM 80D3 0002
-    LOAD_RAM 80D4 0002
-    LOAD_RAM 80D5 0002
-    LOAD_RAM 80D6 0002
-
-    LOAD_RAM 80D9 0002
-    LOAD_RAM 80DA 0002
-    LOAD_RAM 80DB 0002
-    LOAD_RAM 80DC 0002
-
-    LOAD_RAM 10F3 FFFF
     LOAD_RAM 10F4 FFFF
     LOAD_RAM 10F5 FFFF
     LOAD_RAM 10F6 FFFF
-
+    LOAD_RAM 10F7 FFFF
+    LOAD_RAM 10F8 FFFF
     LOAD_RAM 10F9 FFFF
     LOAD_RAM 10FA FFFF
     LOAD_RAM 10FB FFFF
     LOAD_RAM 10FC FFFF
 
-    LOAD_RAM 10E3 FFFF
     LOAD_RAM 10E4 FFFF
     LOAD_RAM 10E5 FFFF
     LOAD_RAM 10E6 FFFF
-
+    LOAD_RAM 10E7 FFFF
+    LOAD_RAM 10E8 FFFF
     LOAD_RAM 10E9 FFFF
     LOAD_RAM 10EA FFFF
     LOAD_RAM 10EB FFFF
     LOAD_RAM 10EC FFFF
 
-    LOAD_RAM 10D3 FFFF
-    LOAD_RAM 10D4 FFFF
-    LOAD_RAM 10D5 FFFF
-    LOAD_RAM 10D6 FFFF
+    # LOAD_RAM 10D4 FFFF
+    # LOAD_RAM 10D5 FFFF
+    # LOAD_RAM 10D6 FFFF
+    # LOAD_RAM 10D7 FFFF
+    # LOAD_RAM 10D8 FFFF
+    # LOAD_RAM 10D9 FFFF
+    # LOAD_RAM 10DA FFFF
+    # LOAD_RAM 10DB FFFF
+    # LOAD_RAM 10DC FFFF
 
-    LOAD_RAM 10D9 FFFF
-    LOAD_RAM 10DA FFFF
-    LOAD_RAM 10DB FFFF
-    LOAD_RAM 10DC FFFF
+    LOAD_RAM 10C4 FFFF
+    LOAD_RAM 10C5 FFFF
+    LOAD_RAM 10C6 FFFF
+    LOAD_RAM 10C7 FFFF
+    LOAD_RAM 10C8 FFFF
+    LOAD_RAM 10C9 FFFF
+    LOAD_RAM 10CA FFFF
+    LOAD_RAM 10CB FFFF
+    LOAD_RAM 10CC FFFF
+
+    LOAD_RAM 10B4 FFFF
+    LOAD_RAM 10B5 FFFF
+    LOAD_RAM 10B6 FFFF
+    LOAD_RAM 10B7 FFFF
+    LOAD_RAM 10B8 FFFF
+    LOAD_RAM 10B9 FFFF
+    LOAD_RAM 10BA FFFF
+    LOAD_RAM 10BB FFFF
+    LOAD_RAM 10BC FFFF
+
+    LOAD_RAM 80F4 0003
+    LOAD_RAM 80F5 0003
+    LOAD_RAM 80F6 0003
+    LOAD_RAM 80F7 0003
+    LOAD_RAM 80F8 0003
+    LOAD_RAM 80F9 0003
+    LOAD_RAM 80FA 0003
+    LOAD_RAM 80FB 0003
+    LOAD_RAM 80FC 0003
+
+    LOAD_RAM 80E4 0003
+    LOAD_RAM 80E5 0003
+    LOAD_RAM 80E6 0003
+    LOAD_RAM 80E7 0003
+    LOAD_RAM 80E8 0003
+    LOAD_RAM 80E9 0003
+    LOAD_RAM 80EA 0003
+    LOAD_RAM 80EB 0003
+    LOAD_RAM 80EC 0003
+
+    # LOAD_RAM 80D4 0003
+    # LOAD_RAM 80D5 0003
+    # LOAD_RAM 80D6 0003
+    # LOAD_RAM 80D7 0003
+    # LOAD_RAM 80D8 0003
+    # LOAD_RAM 80D9 0003
+    # LOAD_RAM 80DA 0003
+    # LOAD_RAM 80DB 0003
+    # LOAD_RAM 80DC 0003
+
+    LOAD_RAM 80C4 0003
+    LOAD_RAM 80C5 0003
+    LOAD_RAM 80C6 0003
+    LOAD_RAM 80C7 0003
+    LOAD_RAM 80C8 0003
+    LOAD_RAM 80C9 0003
+    LOAD_RAM 80CA 0003
+    LOAD_RAM 80CB 0003
+    LOAD_RAM 80CC 0003
+
+    LOAD_RAM 80B4 0003
+    LOAD_RAM 80B5 0003
+    LOAD_RAM 80B6 0003
+    LOAD_RAM 80B7 0003
+    LOAD_RAM 80B8 0003
+    LOAD_RAM 80B9 0003
+    LOAD_RAM 80BA 0003
+    LOAD_RAM 80BB 0003
+    LOAD_RAM 80BC 0003
 
     JR LR
 
@@ -1268,7 +1314,7 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
     LW G1 G2 0000       #pixel cord (sprite cord) to check colision
     ADD G1 G1 G3        #shifting g1 to collision cord
     LW G4 G1 0000       #collsion value (0 or FFFF) @ pixel
-    #SW G1 G7 0000       #debug
+    #SW G1 G7 7000       #debug
 
     BEQ G4 ZERO COLLISION_CHECK_CONT: #if(vram_pixel != 0) {store lowest collsion; return 1;}
     MOV G0 0001         #ret 1
@@ -1389,18 +1435,27 @@ PIECE_LANDED: #no args
     #this is a scuffed way to doing shift but it works
     #shift looks at the "line2clear" array, if the array cotains
     #a "valid" line (anything <= 0xF000, the placeholder in the 
-    #array for lines not to be cleared is 0xFFFF) then the next 
-    #"line" in #the array is shifted down by one line keep in 
-    #mind the array is 4 long, and there is a pad after these 4
-    #and this will be "shifted down" at some point
+    #array for lines not to be cleared is 0xFAFA) all pixels are shifted
+    #down starting at that line, after that all the lines in the array
+    #are incremented by one line (0x0010)
     BGT G0 G7 PIECE_LANDED_CONT:
 
-    #shifting next line in array down, see above
-    LW G7 G5 0207
-    ADDI G7 G7 0010
-    SW G5 G7 0207
-
     JAL SHIFT_DOWN: LR
+
+    #shifting next line in array down, see above
+    LW G7 ZERO 0206
+    ADDI G7 G7 0010
+    SW ZERO G7 0206
+    LW G7 ZERO 0207
+    ADDI G7 G7 0010
+    SW ZERO G7 0207
+    LW G7 ZERO 0208
+    ADDI G7 G7 0010
+    SW ZERO G7 0208
+    LW G7 ZERO 0209
+    ADDI G7 G7 0010
+    SW ZERO G7 0209
+
     PIECE_LANDED_CONT:
 
     #popping ii & 4 from stack
@@ -1526,17 +1581,23 @@ NEW_PIECE:
     SW ZERO G0 0204
     SW ZERO G1 0205
 
-    #more temp regs :)
+    #current_sprite + (3lsb of rng) * 0x0040
+    LW G0 ZERO 0214
     LW G2 ZERO 020D
-    MOV G3 01BF
-    MOV G4 0040
-    MOV G5 01C0
-
-    #"random" new tetramino
+    MOV G1 0007
+    AND G4 CLK G1
+    MULI G4 G4 0040
     ADD G2 G2 G4
-    BLT G2 G3 NEW_PIECE_CONT:
-    SUB G2 G2 G5
+
+    #if(current_sprite >= 0x01C0) {current_sprite = current_sprite - 0x01C0}
+    MOV G5 01C0
+    BLT G2 G5 NEW_PIECE_CONT:
+
+        SUB G2 G2 G5
+
     NEW_PIECE_CONT:
+
+    #store current and last sprite in ram
     SW ZERO G2 020D
     SW ZERO G2 0211
 
@@ -1587,8 +1648,6 @@ START:
     MOV CLK 0000
 
     WAIT: #while time < loop through wait()
-        BGT CLK G0 CONT_MAIN:
-        # BEQ KB ZERO WAIT: #if keyboard input do stuff
 
         #load current pos & store in last pos
         LW G0 ZERO 0202
@@ -1596,21 +1655,47 @@ START:
         SW ZER0 G0 0200
         SW ZERO G1 0201
 
-        #"instant" fall
-        MOV G4 0077
-        BNE KB G4 INSTANT_FALL:
 
-            #was_moved = 1; & clear KB reg
+        #fast fall enable with 's', disable with w
+        MOV G4 0073
+        BNE KB G4 FAST_FALL:
+
+            #inc rng
+            LW G4 ZERO 0214
+            ADDI G4 G4 0001
+            SW ZERO G4 0214
+
+            #clear KB reg & time = 0
             MOV G4 0000
             SW ZERO G4 0212
             MOV KB 0000
 
-        INSTANT_FALL:
+        FAST_FALL:
+        MOV G4 0077
+        BNE KB G4 STOP_FAST_FALL:
+
+            #inc rng
+            LW G4 ZERO 0214
+            ADDI G4 G4 0001
+            SW ZERO G4 0214
+
+
+            #was_moved = 1; & clear KB reg
+            MOV G4 0500
+            SW ZERO G4 0212
+            MOV KB 0000
+
+        STOP_FAST_FALL:
 
 
         #move left
         MOV G4 0061
         BNE KB G4 LEFT:
+
+            #inc rng
+            LW G4 ZERO 0214
+            ADDI G4 G4 0001
+            SW ZERO G4 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
@@ -1646,6 +1731,11 @@ START:
         #move right
         MOV G4 0064
         BNE KB G4 RIGHT:
+
+            #inc rng
+            LW G4 ZERO 0214
+            ADDI G4 G4 0001
+            SW ZERO G4 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
@@ -1685,6 +1775,11 @@ START:
         MOV G4 0020
         BNE KB G4 ROTATE:
 
+            #inc rng
+            LW G4 ZERO 0214
+            ADDI G4 G4 0001
+            SW ZERO G4 0214
+
             #was_moved = 1; & clear KB reg
             MOV G4 0001
             SW ZERO G4 020F
@@ -1709,45 +1804,67 @@ START:
 
             REPEAT_COLLISION_CHECK:
 
-            #store current pos in stack
-            SW SP G0 0001
-            SW SP G1 0002
-            ADDI SP SP 0002
+                #store current pos in stack
+                SW SP G0 0001
+                SW SP G1 0002
+                ADDI SP SP 0002
 
-            #colission check
-            LW G2 ZERO 020D
-            ADDI G2 G2 0020
-            JAL COLLISION_CHECK: LR
+                #colission check
+                LW G2 ZERO 020D
+                ADDI G2 G2 0020
+                JAL COLLISION_CHECK: LR
 
-            #move return to g2
-            ADD G2 G0 ZERO
+                #move return to g2
+                ADD G2 G0 ZERO
 
-            #popping stack twice for x & y
-            LW G1 SP 0000
-            LW G0 SP FFFF
-            SUBI SP SP 0002
+                #popping stack twice for x & y
+                LW G1 SP 0000
+                LW G0 SP FFFF
+                SUBI SP SP 0002
 
-            #if on left side of screen, move right by collision result
-            #if on right move left by collision result
-            #in both cases move up by collsion result <- THIS IS A FEATURE!!!
-            #repeate until collision result equals zero
-            MOV G3 0004
-            BLT G0 G3 RESET_CONT:
+                #if on left side of screen, move right by collision result
+                #if on right move left by collision result
+                #in both cases move up by collsion result <- THIS IS A FEATURE!!!
+                #repeate until collision result equals zero
+                MOV G3 0004
+                BLT G0 G3 RESET_CONT:
 
-            SUB G0 G0 G2
+                SUB G0 G0 G2
 
-            JMP RESET_CONT_CONT:
-            RESET_CONT:
-    
-            ADD G0 G0 G2
+                JMP RESET_CONT_CONT:
+                RESET_CONT:
+        
+                ADD G0 G0 G2
 
-            RESET_CONT_CONT:
+                RESET_CONT_CONT:
 
-            SUB G1 G1 G2
+                SUB G1 G1 G2
 
             BNE G2 ZERO REPEAT_COLLISION_CHECK:
 
         ROTATE:
+
+
+        MOV G4 0076
+        BNE KB G4 SWAP_PIECE:
+
+            #inc rng
+            LW G4 ZERO 0214
+            ADDI G4 G4 0001
+            SW ZERO G4 0214
+
+            #was_moved = 1; & clear KB reg
+            MOV G4 0001
+            SW ZERO G4 020F
+            MOV KB 0000
+
+            #swap current piece and stored piece
+            LW G4 ZERO 0213
+            LW G7 ZERO 020D
+            SW ZERO G4 020D
+            SW ZERO G7 0213
+
+        SWAP_PIECE:
 
         #save current pos in ram
         SW ZERO G0 0202
@@ -1779,7 +1896,6 @@ START:
     BLT CLK G0 WAIT: #end_while
 
     #move down one pixel & store current and last pos
-    CONT_MAIN:
 
     #if(piece_landed == 1) {piece_landed();}
     LW G0 ZERO 0210

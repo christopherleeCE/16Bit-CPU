@@ -81,6 +81,7 @@ int main(int argc, char* argv[]){
 
             //intercepts BGT
             }else if(line.substr(0,3) == "BGT"){
+
                 temp_ss.str(line);
                 str.clear(); str1.clear(); str2.clear(); str3.clear();
                 temp_ss >> str >> str1 >> str2 >> str3;
@@ -88,6 +89,7 @@ int main(int argc, char* argv[]){
                 temp_ss.str(""); temp_ss.clear();
                 temp_ss << "BLT " << str2 << " " << str1 << " " << str3;
                 lines.push_back(temp_ss.str());
+
             }else{
 
                 lines.push_back(line);
