@@ -1,8 +1,5 @@
 # TODO: 
 # - level progression and score tracking
-# - pause
-# - increase collisoion at top of screen
-# - fix collision in upper part of piece
 # - game over
 # - fix graphical bug
 # - rotate after piece land bug
@@ -1003,6 +1000,11 @@ FILL_BACKROUND: #no args
     SUBI SP SP 0001
 
     #floor collsion & wall collision
+    MOV G2 FFFF
+    SW ZERO G2 0FC2
+    SW ZERO G2 0FD2
+    SW ZERO G2 0FE2
+    SW ZERO G2 0FF2
     SW ZERO G2 1002
     SW ZERO G2 1012
     SW ZERO G2 1022
@@ -1047,108 +1049,10 @@ FILL_BACKROUND: #no args
     SW ZERO G2 102D
     SW ZERO G2 101D
     SW ZERO G2 100D
-
-    SW ZERO G2 1001
-    SW ZERO G2 1011
-    SW ZERO G2 1021
-    SW ZERO G2 1031
-    SW ZERO G2 1041
-    SW ZERO G2 1051
-    SW ZERO G2 1061
-    SW ZERO G2 1071
-    SW ZERO G2 1081
-    SW ZERO G2 1091
-    SW ZERO G2 10A1
-    SW ZERO G2 10B1
-    SW ZERO G2 10C1
-    SW ZERO G2 10D1
-    SW ZERO G2 10E1
-    SW ZERO G2 10F1
-    SW ZERO G2 1101
-    SW ZERO G2 1111
-    SW ZERO G2 1112
-    SW ZERO G2 1113
-    SW ZERO G2 1114
-    SW ZERO G2 1115
-    SW ZERO G2 1116
-    SW ZERO G2 1117
-    SW ZERO G2 1118
-    SW ZERO G2 1119
-    SW ZERO G2 111A
-    SW ZERO G2 111B
-    SW ZERO G2 111C
-    SW ZERO G2 111D
-    SW ZERO G2 111E
-    SW ZERO G2 110E
-    SW ZERO G2 10FE
-    SW ZERO G2 10EE
-    SW ZERO G2 10DE
-    SW ZERO G2 10CE
-    SW ZERO G2 10BE
-    SW ZERO G2 10AE
-    SW ZERO G2 109E
-    SW ZERO G2 108E
-    SW ZERO G2 107E
-    SW ZERO G2 106E
-    SW ZERO G2 105E
-    SW ZERO G2 104E
-    SW ZERO G2 103E
-    SW ZERO G2 102E
-    SW ZERO G2 101E
-    SW ZERO G2 100E
-
-    SW ZERO G2 1000
-    SW ZERO G2 1010
-    SW ZERO G2 1020
-    SW ZERO G2 1030
-    SW ZERO G2 1040
-    SW ZERO G2 1050
-    SW ZERO G2 1060
-    SW ZERO G2 1070
-    SW ZERO G2 1080
-    SW ZERO G2 1090
-    SW ZERO G2 10A0
-    SW ZERO G2 10B0
-    SW ZERO G2 10C0
-    SW ZERO G2 10D0
-    SW ZERO G2 10E0
-    SW ZERO G2 10F0
-    SW ZER0 G2 1100
-    SW ZER0 G2 1110
-    SW ZER0 G2 1120
-    SW ZERO G2 1121
-    SW ZERO G2 1122
-    SW ZERO G2 1123
-    SW ZERO G2 1124
-    SW ZERO G2 1125
-    SW ZERO G2 1126
-    SW ZERO G2 1127
-    SW ZERO G2 1128
-    SW ZERO G2 1129
-    SW ZERO G2 112A
-    SW ZERO G2 112B
-    SW ZERO G2 112C
-    SW ZERO G2 112D
-    SW ZERO G2 112E
-    SW ZERO G2 112F
-    SW ZERO G2 111F
-    SW ZERO G2 110F
-    SW ZERO G2 10FF
-    SW ZERO G2 10EF
-    SW ZERO G2 10DF
-    SW ZERO G2 10CF
-    SW ZERO G2 10BF
-    SW ZERO G2 10AF
-    SW ZERO G2 109F
-    SW ZERO G2 108F
-    SW ZERO G2 107F
-    SW ZERO G2 106F
-    SW ZERO G2 105F
-    SW ZERO G2 104F
-    SW ZERO G2 103F
-    SW ZERO G2 102F
-    SW ZERO G2 101F
-    SW ZERO G2 100F
+    SW ZERO G2 0FFD
+    SW ZERO G2 0FED
+    SW ZERO G2 0FDD
+    SW ZERO G2 0FCD
 
     JR LR
 
@@ -1386,7 +1290,7 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
 
     MOV G7 0008         #debug color
 
-    LW G0 G2 0000       #num of collision points
+    MOV G0 0004         #num of collision points
     SUBI G0 G0 0001     #dec for for loop
 
     FOR_COLLISION_CHECK_START: #for(int ii = 0; ii < num_of_collision_points; ii++)
@@ -1396,7 +1300,7 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
     LW G1 G2 0000       #pixel cord (sprite cord) to check colision
     ADD G1 G1 G3        #shifting g1 to collision cord
     LW G4 G1 0000       #collsion value (0 or FFFF) @ pixel
-    #SW G1 G7 7000       #debug
+    # SW G1 G7 7000       #debug
 
     BEQ G4 ZERO COLLISION_CHECK_CONT: #if(vram_pixel != 0) {store lowest collsion; return 1;}
     MOV G0 0001         #ret 1
@@ -1710,7 +1614,6 @@ START:
     LW G0 ZERO 0202
     LW G1 ZERO 0203
     LW G2 ZERO 020D
-    ADDI G2 G2 0020
     JAL COLLISION_CHECK: LR
     SW ZERO G0 0210 #store result
 
@@ -1745,6 +1648,7 @@ START:
     # 0x0064 = 'd'
     # 0x0020 = 'SPACE'
     # 0x0076 = 'v'
+    # 0x0070 = 'p'
 
     WAIT: #while time < loop through wait()
 
@@ -1753,6 +1657,27 @@ START:
         LW G1 ZERO 0203
         SW ZER0 G0 0200
         SW ZERO G1 0201
+
+
+        #pause toggle w/ 'p'
+        MOV G4 0070
+        BNE KB G4 PAUSE:
+
+            #push clock to stack & reset keyboard
+            SW SP CLK 0001
+            ADDI SP SP 0001
+            MOV KB 0000
+
+            PAUSE_WHILE:
+            #do nothing while kb != 'p'
+            BNE KB G4 PAUSE_WHILE:
+
+            #pop clk from stack & reset kb
+            LW CLK SP 0000
+            SUBI SP SP 0001
+            MOV KB 0000
+
+        PAUSE:
 
 
         #fast fall enable with 's', disable with w
@@ -1795,7 +1720,6 @@ START:
 
             #colission check
             LW G2 ZERO 020D
-            ADDI G2 G2 0020
             JAL COLLISION_CHECK: LR
 
             #move return to g2
@@ -1830,7 +1754,6 @@ START:
 
             #colission check
             LW G2 ZERO 020D
-            ADDI G2 G2 0020
             JAL COLLISION_CHECK: LR
 
             #move return to g2
@@ -1884,7 +1807,6 @@ START:
 
                 #colission check
                 LW G2 ZERO 020D
-                ADDI G2 G2 0020
                 JAL COLLISION_CHECK: LR
 
                 #move return to g2
