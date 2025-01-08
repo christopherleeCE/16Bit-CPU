@@ -1,8 +1,3 @@
-# TODO: 
-# - level display????
-# - fix graphical bug
-# - rotate after piece land bug
-
 INIT:
 
     #loading sprites :)
@@ -13,6 +8,8 @@ INIT:
 
     #filling backround :)
     JAL FILL_BACKROUND: LR
+
+    JAL NEW_PIECE: LR
 
     #debug
     #JAL DEBUG_FILL: LR
@@ -480,16 +477,16 @@ LOAD_SPRITES:
 INIT_VARS:
 
     #last pos (x, y)
-    LOAD_RAM 0200 0006
-    LOAD_RAM 0201 FFFE
+    #LOAD_RAM 0200 0006
+    #LOAD_RAM 0201 FFFE
 
     #current pos
-    LOAD_RAM 0202 0006
-    LOAD_RAM 0203 FFFF
+    #LOAD_RAM 0202 0006
+    #LOAD_RAM 0203 FFFF
 
     #next pos (currently unused)
-    LOAD_RAM 0204 0006
-    LOAD_RAM 0205 0000
+    #LOAD_RAM 0204 0006
+    #LOAD_RAM 0205 0000
 
     #lines to clear, 0xFFFF being a placeholder
     LOAD_RAM 0206 FFFF
@@ -521,7 +518,7 @@ INIT_VARS:
     SW ZERO G0 0211
 
     #wait_time
-    LOAD_RAM 0212 00E1  #<- SAME
+    #LOAD_RAM 0212 0000  #<- SAME
 
     #saved_piece
     LOAD_RAM 0213 0000
@@ -530,7 +527,7 @@ INIT_VARS:
     LOAD_RAM 0214 0000
 
     #level & score
-    LOAD_RAM 0215 0218
+    LOAD_RAM 0215 021A
     LOAD_RAM 0216 0000
 
     #wait_until_clk (clk to stop wait at)
@@ -547,17 +544,6 @@ INIT_VARS:
     LOAD_RAM 021F 0032
     LOAD_RAM 0220 0019
     LOAD_RAM 0221 0000
-
-
-
-
-
-
-
-
-
-
-
 
     #score subtotal (1 line = 1, 2 lines = 3, 3 lines = 6, 4 lines = 10)
     LOAD_RAM 0222 0000
@@ -998,25 +984,25 @@ FILL_BACKROUND: #no args
     SW ZERO G1 815D
     SW ZERO G1 815E
     SW ZERO G1 814E
-    SW ZERO G1 813E
+    SW ZERO G0 813E
     SW ZERO G1 812E
-    SW ZERO G1 811E
+    SW ZERO G0 811E
     SW ZERO G1 810E
-    SW ZERO G1 80FE
+    SW ZERO G0 80FE
     SW ZERO G1 80EE
-    SW ZERO G1 80DE
+    SW ZERO G0 80DE
     SW ZERO G1 80CE
-    SW ZERO G1 80BE
+    SW ZERO G0 80BE
     SW ZERO G1 80AE
-    SW ZERO G1 809E
+    SW ZERO G0 809E
     SW ZERO G1 808E
-    SW ZERO G1 807E
+    SW ZERO G0 807E
     SW ZERO G1 806E
-    SW ZERO G1 805E
+    SW ZERO G0 805E
     SW ZERO G1 804E
-    SW ZERO G1 803E
+    SW ZERO G0 803E
     SW ZERO G1 802E
-    SW ZERO G1 801E
+    SW ZERO G0 801E
     SW ZERO G1 800E
 
     SW ZERO G1 8000
@@ -1763,11 +1749,27 @@ NEW_PIECE:
     ADD G2 ZERO G5
     JAL DRAW_SPRITE: LR
 
-    #current_piece = "last" next_piece
-    #next_piece = "current" next_piece
-    SW ZERO G4 020D
+    SW ZERO G4 020D     #current_piece = "last" next_piece
     SW ZERO G4 0211
-    SW ZERO G5 020A
+    SW ZERO G5 020A     #next_piece = "current" next_piece
+
+    MOV G0 0000         #int ii
+    LW G1 ZERO 0215     #G1 = level
+    SUBI G1 G1 0218
+    LW G2 G4 0000       #load current piece color
+    MOV G3 813E         #vram ptr
+
+    #for(int ii = 0; ii < level; ii++)
+    NEW_PIECE_FOR_START:
+    BGT G0 G1 NEW_PIECE_FOR_END:
+
+        #drawpixel(E, 19 - 2*ii)
+        SW G3 G2 0000
+        ADDI G0 G0 0001
+        SUBI G3 G3 0020
+
+    JMP NEW_PIECE_FOR_START:
+    NEW_PIECE_FOR_END:
 
     #check if piece is touching on placement, if so game over
     LW G0 ZERO 0202
@@ -2055,14 +2057,33 @@ START:
             ADD G2 G7 ZERO
             JAL DRAW_SPRITE: LR
 
-            #spwaping current and stored piece
-            SW ZERO G4 020D
-            SW ZERO G7 0213
-
             #pop current pos from stack
             LW G1 SP 0000
             LW G0 SP FFFF
             SUBI SP SP 0002
+
+            #clearing sprite form play area
+            LW G2 ZERO 020D
+            JAL CLEAR_SPRITE: LR
+
+            #spwaping current and stored piece
+            SW ZERO G4 020D
+            SW ZERO G4 0211
+            SW ZERO G7 0213
+
+            #temp regs
+            MOV G0 0006
+            MOV G1 FFFF
+            MOV G2 0000
+            MOV G4 FFFE
+
+            #reseting pos
+            SW ZERO G0 0200
+            SW ZERO G4 0201
+            SW ZERO G0 0202
+            SW ZERO G1 0203
+            SW ZERO G0 0204
+            SW ZERO G2 0205
 
         SWAP_PIECE:
 

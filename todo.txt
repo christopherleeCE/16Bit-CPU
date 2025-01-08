@@ -1,0 +1,7 @@
+TODO: 
+- fix graphical bug
+- rotate after piece land bug
+- switch once?
+- optimize abw sel
+- carry lookahead
+- fix rng
