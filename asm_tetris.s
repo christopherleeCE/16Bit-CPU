@@ -1,6 +1,5 @@
 # TODO: 
-# - level progression and score tracking
-# - game over
+# - level display????
 # - fix graphical bug
 # - rotate after piece land bug
 
@@ -482,15 +481,15 @@ INIT_VARS:
 
     #last pos (x, y)
     LOAD_RAM 0200 0006
-    LOAD_RAM 0201 FFFF
+    LOAD_RAM 0201 FFFE
 
     #current pos
     LOAD_RAM 0202 0006
-    LOAD_RAM 0203 0000
+    LOAD_RAM 0203 FFFF
 
     #next pos (currently unused)
     LOAD_RAM 0204 0006
-    LOAD_RAM 0205 0001
+    LOAD_RAM 0205 0000
 
     #lines to clear, 0xFFFF being a placeholder
     LOAD_RAM 0206 FFFF
@@ -522,7 +521,7 @@ INIT_VARS:
     SW ZERO G0 0211
 
     #wait_time
-    LOAD_RAM 0212 0500
+    LOAD_RAM 0212 00E1  #<- SAME
 
     #saved_piece
     LOAD_RAM 0213 0000
@@ -531,18 +530,87 @@ INIT_VARS:
     LOAD_RAM 0214 0000
 
     #level & score
-    LOAD_RAM 0215 0000
+    LOAD_RAM 0215 0218
     LOAD_RAM 0216 0000
 
+    #wait_until_clk (clk to stop wait at)
+    LOAD_RAM 0217 0000
+
+    #fall speed array
+    LOAD_RAM 0218 00E1  #<- SAME
+    LOAD_RAM 0219 00C8
+    LOAD_RAM 021A 00AF
+    LOAD_RAM 021B 0096
+    LOAD_RAM 021C 007D
+    LOAD_RAM 021D 0064
+    LOAD_RAM 021E 004B
+    LOAD_RAM 021F 0032
+    LOAD_RAM 0220 0019
+    LOAD_RAM 0221 0000
+
+
+
+
+
+
+
+
+
+
+
+
+    #score subtotal (1 line = 1, 2 lines = 3, 3 lines = 6, 4 lines = 10)
+    LOAD_RAM 0222 0000
+
+    #level_up (at 1000 level up, and level_up = level_up - 1000)
+    LOAD_RAM 0223 0000
+ 
     #init stack_ptr 
-    LOAD_RAM 0217 FAFA
-    MOV SP 0217
+    LOAD_RAM 0224 FAFA
+    MOV SP 0224
 
     #ret
     JR LR
 
 #debug :)
 DEBUG_FILL:
+
+    LOAD_RAM 1134 FFFF
+    LOAD_RAM 1135 FFFF
+    LOAD_RAM 1136 FFFF
+    LOAD_RAM 1137 FFFF
+    LOAD_RAM 1138 FFFF
+    LOAD_RAM 1139 FFFF
+    LOAD_RAM 113A FFFF
+    LOAD_RAM 113B FFFF
+    LOAD_RAM 113C FFFF
+    LOAD_RAM 1124 FFFF
+    LOAD_RAM 1125 FFFF
+    LOAD_RAM 1126 FFFF
+    LOAD_RAM 1127 FFFF
+    LOAD_RAM 1128 FFFF
+    LOAD_RAM 1129 FFFF
+    LOAD_RAM 112A FFFF
+    LOAD_RAM 112B FFFF
+    LOAD_RAM 112C FFFF
+    LOAD_RAM 1114 FFFF
+    LOAD_RAM 1115 FFFF
+    LOAD_RAM 1116 FFFF
+    LOAD_RAM 1117 FFFF
+    LOAD_RAM 1118 FFFF
+    LOAD_RAM 1119 FFFF
+    LOAD_RAM 111A FFFF
+    LOAD_RAM 111B FFFF
+    LOAD_RAM 111C FFFF
+    LOAD_RAM 1104 FFFF
+    LOAD_RAM 1105 FFFF
+    LOAD_RAM 1106 FFFF
+    LOAD_RAM 1107 FFFF
+    LOAD_RAM 1108 FFFF
+    LOAD_RAM 1109 FFFF
+    LOAD_RAM 110A FFFF
+    LOAD_RAM 110B FFFF
+    LOAD_RAM 110C FFFF
 
     LOAD_RAM 10F4 FFFF
     LOAD_RAM 10F5 FFFF
@@ -553,7 +621,6 @@ DEBUG_FILL:
     LOAD_RAM 10FA FFFF
     LOAD_RAM 10FB FFFF
     LOAD_RAM 10FC FFFF
-
     LOAD_RAM 10E4 FFFF
     LOAD_RAM 10E5 FFFF
     LOAD_RAM 10E6 FFFF
@@ -563,17 +630,15 @@ DEBUG_FILL:
     LOAD_RAM 10EA FFFF
     LOAD_RAM 10EB FFFF
     LOAD_RAM 10EC FFFF
-
-    # LOAD_RAM 10D4 FFFF
-    # LOAD_RAM 10D5 FFFF
-    # LOAD_RAM 10D6 FFFF
-    # LOAD_RAM 10D7 FFFF
-    # LOAD_RAM 10D8 FFFF
-    # LOAD_RAM 10D9 FFFF
-    # LOAD_RAM 10DA FFFF
-    # LOAD_RAM 10DB FFFF
-    # LOAD_RAM 10DC FFFF
-
+    LOAD_RAM 10D4 FFFF
+    LOAD_RAM 10D5 FFFF
+    LOAD_RAM 10D6 FFFF
+    LOAD_RAM 10D7 FFFF
+    LOAD_RAM 10D8 FFFF
+    LOAD_RAM 10D9 FFFF
+    LOAD_RAM 10DA FFFF
+    LOAD_RAM 10DB FFFF
+    LOAD_RAM 10DC FFFF
     LOAD_RAM 10C4 FFFF
     LOAD_RAM 10C5 FFFF
     LOAD_RAM 10C6 FFFF
@@ -593,57 +658,45 @@ DEBUG_FILL:
     LOAD_RAM 10BA FFFF
     LOAD_RAM 10BB FFFF
     LOAD_RAM 10BC FFFF
+    LOAD_RAM 10A4 FFFF
+    LOAD_RAM 10A5 FFFF
+    LOAD_RAM 10A6 FFFF
+    LOAD_RAM 10A7 FFFF
+    LOAD_RAM 10A8 FFFF
+    LOAD_RAM 10A9 FFFF
+    LOAD_RAM 10AA FFFF
+    LOAD_RAM 10AB FFFF
+    LOAD_RAM 10AC FFFF
+    LOAD_RAM 1094 FFFF
+    LOAD_RAM 1095 FFFF
+    LOAD_RAM 1096 FFFF
+    LOAD_RAM 1097 FFFF
+    LOAD_RAM 1098 FFFF
+    LOAD_RAM 1099 FFFF
+    LOAD_RAM 109A FFFF
+    LOAD_RAM 109B FFFF
+    LOAD_RAM 109C FFFF
 
-    LOAD_RAM 80F4 0003
-    LOAD_RAM 80F5 0003
-    LOAD_RAM 80F6 0003
-    LOAD_RAM 80F7 0003
-    LOAD_RAM 80F8 0003
-    LOAD_RAM 80F9 0003
-    LOAD_RAM 80FA 0003
-    LOAD_RAM 80FB 0003
-    LOAD_RAM 80FC 0003
-
-    LOAD_RAM 80E4 0003
-    LOAD_RAM 80E5 0003
-    LOAD_RAM 80E6 0003
-    LOAD_RAM 80E7 0003
-    LOAD_RAM 80E8 0003
-    LOAD_RAM 80E9 0003
-    LOAD_RAM 80EA 0003
-    LOAD_RAM 80EB 0003
-    LOAD_RAM 80EC 0003
-
-    # LOAD_RAM 80D4 0003
-    # LOAD_RAM 80D5 0003
-    # LOAD_RAM 80D6 0003
-    # LOAD_RAM 80D7 0003
-    # LOAD_RAM 80D8 0003
-    # LOAD_RAM 80D9 0003
-    # LOAD_RAM 80DA 0003
-    # LOAD_RAM 80DB 0003
-    # LOAD_RAM 80DC 0003
-
-    LOAD_RAM 80C4 0003
-    LOAD_RAM 80C5 0003
-    LOAD_RAM 80C6 0003
-    LOAD_RAM 80C7 0003
-    LOAD_RAM 80C8 0003
-    LOAD_RAM 80C9 0003
-    LOAD_RAM 80CA 0003
-    LOAD_RAM 80CB 0003
-    LOAD_RAM 80CC 0003
-
-    LOAD_RAM 80B4 0003
-    LOAD_RAM 80B5 0003
-    LOAD_RAM 80B6 0003
-    LOAD_RAM 80B7 0003
-    LOAD_RAM 80B8 0003
-    LOAD_RAM 80B9 0003
-    LOAD_RAM 80BA 0003
-    LOAD_RAM 80BB 0003
-    LOAD_RAM 80BC 0003
-
+    LOAD_RAM 8134 0006
+    LOAD_RAM 8124 0006
+    LOAD_RAM 8114 0006
+    LOAD_RAM 8104 0006
+    LOAD_RAM 80F4 0006
+    LOAD_RAM 80E4 0006
+    LOAD_RAM 80D4 0006 
+    LOAD_RAM 80C4 0006
+    LOAD_RAM 80B4 0006
+    LOAD_RAM 80A4 0006
+    LOAD_RAM 8094 0006
+    LOAD_RAM 8094 0006
+    LOAD_RAM 8095 0006
+    LOAD_RAM 8096 0006
+    LOAD_RAM 8097 0006
+    LOAD_RAM 8098 0006
+    LOAD_RAM 8099 0006
+    LOAD_RAM 809A 0006
+    LOAD_RAM 809B 0006
+    LOAD_RAM 809C 0006
     JR LR
 
 #fills backround with black in center and blue-ish on sides
@@ -814,6 +867,46 @@ FILL_BACKROUND: #no args
     SW ZERO G0 80FA
     SW ZERO G0 80FB
     SW ZERO G0 80FC
+    SW ZERO G0 8103
+    SW ZERO G0 8104
+    SW ZERO G0 8105
+    SW ZERO G0 8106
+    SW ZERO G0 8107
+    SW ZERO G0 8108
+    SW ZERO G0 8109
+    SW ZERO G0 810A
+    SW ZERO G0 810B
+    SW ZERO G0 810C
+    SW ZERO G0 8113
+    SW ZERO G0 8114
+    SW ZERO G0 8115
+    SW ZERO G0 8116
+    SW ZERO G0 8117
+    SW ZERO G0 8118
+    SW ZERO G0 8119
+    SW ZERO G0 811A
+    SW ZERO G0 811B
+    SW ZERO G0 811C
+    SW ZERO G0 8123
+    SW ZERO G0 8124
+    SW ZERO G0 8125
+    SW ZERO G0 8126
+    SW ZERO G0 8127
+    SW ZERO G0 8128
+    SW ZERO G0 8129
+    SW ZERO G0 812A
+    SW ZERO G0 812B
+    SW ZERO G0 812C
+    SW ZERO G0 8133
+    SW ZERO G0 8134
+    SW ZERO G0 8135
+    SW ZERO G0 8136
+    SW ZERO G0 8137
+    SW ZERO G0 8138
+    SW ZERO G0 8139
+    SW ZERO G0 813A
+    SW ZERO G0 813B
+    SW ZERO G0 813C
 
     #blue walls
     SW ZERO G1 8002
@@ -833,16 +926,24 @@ FILL_BACKROUND: #no args
     SW ZERO G1 80E2
     SW ZERO G1 80F2
     SW ZERO G1 8102
-    SW ZERO G1 8103
-    SW ZERO G1 8104
-    SW ZERO G1 8105
-    SW ZERO G1 8106
-    SW ZERO G1 8107
-    SW ZERO G1 8108
-    SW ZERO G1 8109
-    SW ZERO G1 810A
-    SW ZERO G1 810B
-    SW ZERO G1 810C
+    SW ZERO G1 8112
+    SW ZERO G1 8122
+    SW ZERO G1 8132
+    SW ZERO G1 8142
+    SW ZERO G1 8143
+    SW ZERO G1 8144
+    SW ZERO G1 8145
+    SW ZERO G1 8146
+    SW ZERO G1 8147
+    SW ZERO G1 8148
+    SW ZERO G1 8149
+    SW ZERO G1 814A
+    SW ZERO G1 814B
+    SW ZERO G1 814C
+    SW ZERO G1 814D
+    SW ZERO G1 813D
+    SW ZERO G1 812D
+    SW ZERO G1 811D
     SW ZERO G1 810D
     SW ZERO G1 80FD
     SW ZERO G1 80ED
@@ -879,18 +980,26 @@ FILL_BACKROUND: #no args
     SW ZERO G1 80F1
     SW ZERO G1 8101
     SW ZERO G1 8111
-    SW ZERO G1 8112
-    SW ZERO G1 8113
-    SW ZERO G1 8114
-    SW ZERO G1 8115
-    SW ZERO G1 8116
-    SW ZERO G1 8117
-    SW ZERO G1 8118
-    SW ZERO G1 8119
-    SW ZERO G1 811A
-    SW ZERO G1 811B
-    SW ZERO G1 811C
-    SW ZERO G1 811D
+    SW ZERO G1 8121
+    SW ZERO G1 8131
+    SW ZERO G1 8141
+    SW ZERO G1 8151
+    SW ZERO G1 8152
+    SW ZERO G1 8153
+    SW ZERO G1 8154
+    SW ZERO G1 8155
+    SW ZERO G1 8156
+    SW ZERO G1 8157
+    SW ZERO G1 8158
+    SW ZERO G1 8159
+    SW ZERO G1 815A
+    SW ZERO G1 815B
+    SW ZERO G1 815C
+    SW ZERO G1 815D
+    SW ZERO G1 815E
+    SW ZERO G1 814E
+    SW ZERO G1 813E
+    SW ZERO G1 812E
     SW ZERO G1 811E
     SW ZERO G1 810E
     SW ZERO G1 80FE
@@ -928,21 +1037,29 @@ FILL_BACKROUND: #no args
     SW ZERO G1 80F0
     SW ZER0 G1 8100
     SW ZER0 G1 8110
-    SW ZER0 G1 8120
-    SW ZERO G1 8121
-    SW ZERO G1 8122
-    SW ZERO G1 8123
-    SW ZERO G1 8124
-    SW ZERO G1 8125
-    SW ZERO G1 8126
-    SW ZERO G1 8127
-    SW ZERO G1 8128
-    SW ZERO G1 8129
-    SW ZERO G1 812A
-    SW ZERO G1 812B
-    SW ZERO G1 812C
-    SW ZERO G1 812D
-    SW ZERO G1 812E
+    SW ZERO G1 8120
+    SW ZERO G1 8130
+    SW ZERO G1 8140
+    SW ZERO G1 8150
+    SW ZER0 G1 8160
+    SW ZERO G1 8161
+    SW ZERO G1 8162
+    SW ZERO G1 8163
+    SW ZERO G1 8164
+    SW ZERO G1 8165
+    SW ZERO G1 8166
+    SW ZERO G1 8167
+    SW ZERO G1 8168
+    SW ZERO G1 8169
+    SW ZERO G1 816A
+    SW ZERO G1 816B
+    SW ZERO G1 816C
+    SW ZERO G1 816D
+    SW ZERO G1 816E
+    SW ZERO G1 816F
+    SW ZERO G1 815F
+    SW ZERO G1 814F
+    SW ZERO G1 813F
     SW ZERO G1 812F
     SW ZERO G1 811F
     SW ZERO G1 810F
@@ -963,28 +1080,28 @@ FILL_BACKROUND: #no args
     SW ZERO G1 801F
     SW ZERO G1 800F
 
-    SW ZERO G1 8130
-    SW ZERO G1 8131
-    SW ZERO G1 8132
-    SW ZERO G1 8133
-    SW ZERO G1 8134
-    SW ZERO G1 8135
-    SW ZERO G1 8136
-    SW ZERO G1 8137
-    SW ZERO G1 8138
-    SW ZERO G1 8139
-    SW ZERO G1 813A
-    SW ZERO G1 813B
-    SW ZERO G1 813C
-    SW ZERO G1 813D
-    SW ZERO G1 813E
-    SW ZERO G1 813F
+    SW ZERO G1 8170
+    SW ZERO G1 8171
+    SW ZERO G1 8172
+    SW ZERO G1 8173
+    SW ZERO G1 8174
+    SW ZERO G1 8175
+    SW ZERO G1 8176
+    SW ZERO G1 8177
+    SW ZERO G1 8178
+    SW ZERO G1 8179
+    SW ZERO G1 817A
+    SW ZERO G1 817B
+    SW ZERO G1 817C
+    SW ZERO G1 817D
+    SW ZERO G1 817E
+    SW ZERO G1 817F
 
     #draw next piece and stored piece in bottom right
     SW SP LR 0001
     ADDI SP SP 0001
     MOV G0 000B
-    MOV G1 0010
+    MOV G1 0014
     MOV G2 0040
     JAL DRAW_SPRITE: LR
     LW LR SP 0000
@@ -993,7 +1110,7 @@ FILL_BACKROUND: #no args
     SW SP LR 0001
     ADDI SP SP 0001
     MOV G0 0001
-    MOV G1 0010
+    MOV G1 0014
     MOV G2 0000
     JAL DRAW_SPRITE: LR
     LW LR SP 0000
@@ -1022,16 +1139,22 @@ FILL_BACKROUND: #no args
     SW ZERO G2 10E2
     SW ZERO G2 10F2
     SW ZERO G2 1102
-    SW ZERO G2 1103
-    SW ZERO G2 1104
-    SW ZERO G2 1105
-    SW ZERO G2 1106
-    SW ZERO G2 1107
-    SW ZERO G2 1108
-    SW ZERO G2 1109
-    SW ZERO G2 110A
-    SW ZERO G2 110B
-    SW ZERO G2 110C
+    SW ZERO G2 1112
+    SW ZERO G2 1122
+    SW ZERO G2 1132
+    SW ZERO G2 1143
+    SW ZERO G2 1144
+    SW ZERO G2 1145
+    SW ZERO G2 1146
+    SW ZERO G2 1147
+    SW ZERO G2 1148
+    SW ZERO G2 1149
+    SW ZERO G2 114A
+    SW ZERO G2 114B
+    SW ZERO G2 114C
+    SW ZERP G2 113D
+    SW ZERP G2 112D
+    SW ZERP G2 111D
     SW ZERO G2 110D
     SW ZERO G2 10FD
     SW ZERO G2 10ED
@@ -1320,10 +1443,9 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
 #does stuff :)
 PIECE_LANDED: #no args
 
-    #piece_landed = 0; & reset fallspeed
-    MOV G0 0500
+    #piece_landed = 0;
     SW ZERO ZERO 0210
-    SW  ZERO G0 0212
+
 
     #loading current pos into last placement location (uses last_pos from memory due to the way collsion is checked)
     LW G0 ZERO 0202
@@ -1399,6 +1521,10 @@ PIECE_LANDED: #no args
     JMP PIECE_LANDED_FOR2_START:
     PIECE_LANDED_FOR2_END: #end_for
 
+    #reseting score subtotal
+    MOV G6 0000
+    SW ZERO G6 0222
+
     #4 for loop
     MOV G5 0000
     MOV G6 0003
@@ -1426,6 +1552,14 @@ PIECE_LANDED: #no args
     #are incremented by one line (0x0010)
     BGT G0 G7 PIECE_LANDED_CONT:
 
+    #adding to score subtotal
+    LW G7 SP FFFF
+    ADDI G7 G7 0001
+    LW G6 ZERO 0222
+    ADD G6 G6 G7
+    SW ZERO G6 0222
+
+
     JAL SHIFT_DOWN: LR
 
     #shifting next line in array down, see above
@@ -1452,9 +1586,35 @@ PIECE_LANDED: #no args
 
     #inc ii
     ADDI G5 G5 0001
-
+ 
     JMP PIECE_LANDED_FOR3_START:
     PIECE_LANDED_FOR3_END: #end_for
+
+    #G7 = sub_score * 50
+    LW G7 ZERO 0222
+    MULI G7 G7 0064
+
+    #score = score + G7
+    #level_up = score + G7
+    LW G0 ZERO 0216
+    LW G1 ZERO 0223
+    ADD G0 G0 G7
+    ADD G1 G1 G7
+
+    #if(level_up >= 1000) {level_up = level_up - 1000; level++;} 
+    MOV G7 03E8
+    BLT G1 G7 PIECE_LANDED_CONT2:
+
+        SUB G1 G1 G7
+        LW G7 ZERO 0215
+        ADDI G7 G7 0001
+        SW ZERO G7 0215
+
+    PIECE_LANDED_CONT2:
+
+    #save score and level_up
+    SW ZERO G0 0216
+    SW ZERO G1 0223
 
     #new piece :)
     JMP NEW_PIECE:
@@ -1554,17 +1714,22 @@ SHIFT_DOWN: #G0(line to shift at (0x80YD))
 #resets x&y pos's then return to START:
 NEW_PIECE:
     
+    #wait_time = fall_speed_table[level]
+    LW G2 ZERO 0215
+    LW G2 G2 0000
+    SW ZERO G2 0212
+
     #temp regs
     MOV G0 0006
-    MOV G1 0000
-    MOV G2 0001
-    MOV G7 FFFF
+    MOV G1 FFFF
+    MOV G2 0000
+    MOV G7 FFFE
 
     #reseting pos
     SW ZERO G0 0200
     SW ZERO G7 0201
     SW ZERO G0 0202
-    SW ZERO ZERO 0203
+    SW ZERO G1 0203
     SW ZERO G0 0204
     SW ZERO G2 0205
 
@@ -1590,17 +1755,28 @@ NEW_PIECE:
 
     #redraw the "next piece" display in the bottom right
     MOV G0 000B
-    MOV G1 0010
+    MOV G1 0014
     ADD G2 ZERO G4
     JAL CLEAR_SPRTIE_BLUE: LR
     MOV G0 000B
-    MOV G1 0010
+    MOV G1 0014
     ADD G2 ZERO G5
     JAL DRAW_SPRITE: LR
 
+    #current_piece = "last" next_piece
+    #next_piece = "current" next_piece
     SW ZERO G4 020D
     SW ZERO G4 0211
     SW ZERO G5 020A
+
+    SW ZERO ZERO 020D
+
+    #check if piece is touching on placement, if so game over
+    LW G0 ZERO 0202
+    LW G1 ZERO 0203
+    ADD G2 G4 ZERO
+    JAL COLLISION_CHECK: LR
+    BNE G0 ZERO GAME_END:
 
     JMP WHILE_TRUE:
 
@@ -1609,6 +1785,8 @@ START:
 
     #start of gameplay loop
     WHILE_TRUE:
+
+    JAL DEBUG_FILL: LR
 
     #at start of frame see if block is clipping
     LW G0 ZERO 0202
@@ -1640,8 +1818,10 @@ START:
     LW G2 ZERO 020D
     JAL DRAW_SPRITE: LR
 
-    #wait and poll for inputs before moving piece down for G0 clock cycles
-    MOV CLK 0000
+    #wait_until_clk = clk + wait_time
+    LW G0 ZERO 0212
+    ADD G1 G0 CLK
+    SW ZERO G1 0217
 
     # 0x0077 = 's'
     # 0x0061 = 'a'
@@ -1650,7 +1830,7 @@ START:
     # 0x0076 = 'v'
     # 0x0070 = 'p'
 
-    WAIT: #while time < loop through wait()
+    WAIT: #while(clk < wait_until_clk) {gameplay loop}
 
         #load current pos & store in last pos
         LW G0 ZERO 0202
@@ -1684,18 +1864,26 @@ START:
         MOV G4 0073
         BNE KB G4 FAST_FALL:
 
-            #clear KB reg & time = 0
-            MOV G4 0000
-            SW ZERO G4 0212
+            #clear KB reg & wait_until_clk = wait_time = 0 
+            SW ZERO ZERO 0212
+            SW ZERO ZERO 0217
             MOV KB 0000
 
         FAST_FALL:
         MOV G4 0077
         BNE KB G4 STOP_FAST_FALL:
 
+            #wait_time = fall_speed_table[level]
+            LW G2 ZERO 0215
+            SW ZERO G2 0212
+
+            #wait_until_clk = clk + wait_time
+            ADD G4 G2 CLK
+            SW ZERO G4 0217
+
             #was_moved = 1; & clear KB reg
-            MOV G4 0500
-            SW ZERO G4 0212
+            MOV G4 0001
+            SW ZERO G4 020F
             MOV KB 0000
 
         STOP_FAST_FALL:
@@ -1859,7 +2047,7 @@ START:
 
             #redraw stored piece display in bottom left
             MOV G0 0001
-            MOV G1 0010
+            MOV G1 0014
             ADD G2 G4 ZERO
             JAL CLEAR_SPRTIE_BLUE: LR
 
@@ -1867,7 +2055,7 @@ START:
             AND G7 G7 G2        #<----------------
 
             MOV G0 0001
-            MOV G1 0010
+            MOV G1 0014
             ADD G2 G7 ZERO
             JAL DRAW_SPRITE: LR
 
@@ -1909,7 +2097,7 @@ START:
 
         PIECE_MOVED:
 
-        LW G0 ZERO 0212
+        LW G0 ZERO 0217
     BLT CLK G0 WAIT: #end_while
 
     #move down one pixel & store current and last pos
@@ -1928,6 +2116,37 @@ START:
 
     JMP WHILE_TRUE:
 
+#game over screen
+GAME_END:
+    
+    #flash last piece
+    MOV G6 0100
+    GAME_END_WHILE_TRUE:
+
+        LW G0 ZERO 0202
+        LW G1 ZERO 0203
+        LW G2 ZERO 020D
+        MOV G7 0002
+        SW G2 G7 0000
+        JAL DRAW_SPRITE: LR
+
+        ADD G7 CLK G6
+        GAME_END_WAIT:
+        BLT CLK G7 GAME_END_WAIT:
+
+        LW G0 ZERO 0202
+        LW G1 ZERO 0203
+        LW G2 ZERO 020D
+        MOV G7 0009
+        SW G2 G7 0000
+        JAL DRAW_SPRITE: LR
+
+        ADD G7 CLK G6
+        GAME_END_WAIT2:
+        BLT CLK G7 GAME_END_WAIT2:
+
+    JMP GAME_END_WHILE_TRUE:
 
 #end :)
 END:
+    JMP END:
