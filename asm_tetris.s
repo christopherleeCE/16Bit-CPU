@@ -1769,8 +1769,6 @@ NEW_PIECE:
     SW ZERO G4 0211
     SW ZERO G5 020A
 
-    SW ZERO ZERO 020D
-
     #check if piece is touching on placement, if so game over
     LW G0 ZERO 0202
     LW G1 ZERO 0203
@@ -1785,8 +1783,6 @@ START:
 
     #start of gameplay loop
     WHILE_TRUE:
-
-    JAL DEBUG_FILL: LR
 
     #at start of frame see if block is clipping
     LW G0 ZERO 0202
