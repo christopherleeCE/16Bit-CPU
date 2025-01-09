@@ -527,7 +527,7 @@ INIT_VARS:
     LOAD_RAM 0214 0000
 
     #level & score
-    LOAD_RAM 0215 021A
+    LOAD_RAM 0215 0218
     LOAD_RAM 0216 0000
 
     #wait_until_clk (clk to stop wait at)
@@ -550,10 +550,13 @@ INIT_VARS:
 
     #level_up (at 1000 level up, and level_up = level_up - 1000)
     LOAD_RAM 0223 0000
+
+    #has been switched
+    LOAD_RAM 0224 0000
  
     #init stack_ptr 
-    LOAD_RAM 0224 FAFA
-    MOV SP 0224
+    LOAD_RAM 0225 FAFA
+    MOV SP 0225
 
     #ret
     JR LR
@@ -1429,8 +1432,9 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
 #does stuff :)
 PIECE_LANDED: #no args
 
-    #piece_landed = 0;
+    #piece_landed = 0; has_been_switched = 0;
     SW ZERO ZERO 0210
+    SW ZERO ZERO 0224
 
 
     #loading current pos into last placement location (uses last_pos from memory due to the way collsion is checked)
@@ -1791,7 +1795,7 @@ START:
     LW G1 ZERO 0203
     LW G2 ZERO 020D
     JAL COLLISION_CHECK: LR
-    SW ZERO G0 0210 #store result
+    SW ZERO G0 0210 #store result (unused rn)
 
     #if col == 1 revert current pos, jump to wait loop
     BEQ G0 ZERO COL_RET_ONE:
@@ -1800,14 +1804,14 @@ START:
         SW ZERO G0 0202
         SW ZERO G1 0203
         
-        JMP WAIT:
+        JMP PIECE_LANDED:
     COL_RET_ONE:
 
 
     #clear sprite from last fram
     LW G0 ZERO 0200
     LW G1 ZERO 0201
-    LW G2 ZERO 0211
+    LW G2 ZERO 020D
     JAL CLEAR_SPRITE: LR
 
     #draw sprite for this frame
@@ -1873,15 +1877,14 @@ START:
 
             #wait_time = fall_speed_table[level]
             LW G2 ZERO 0215
+            LW G2 G2 0000
             SW ZERO G2 0212
 
             #wait_until_clk = clk + wait_time
             ADD G4 G2 CLK
             SW ZERO G4 0217
 
-            #was_moved = 1; & clear KB reg
-            MOV G4 0001
-            SW ZERO G4 020F
+            #clear KB reg
             MOV KB 0000
 
         STOP_FAST_FALL:
@@ -1954,10 +1957,6 @@ START:
 
         RIGHT:
 
-
-        LW G7 ZERO 020D         #load sprite_ptr
-        SW ZERO G7 0211         #store in last sprite
-
         #rotate piece clockwise
         MOV G4 0020
         BNE KB G4 ROTATE:
@@ -1968,21 +1967,22 @@ START:
             MOV KB 0000
 
             LW G7 ZERO 020D     #load sprite_ptr
+            SW ZERO G7 0211     #store in last sprite
             ADDI G7 G7 0005     #rotate by 90 CW
             MOV G4 003F         #mask for 6lsb
             AND G5 G7 G4        #using mask
             MOV G4 0014         #const in = 0x0014
-
+            
             #if sprite_ptr is 0x0014 + ii*0x0040
             BNE G5 G4 RESET_ROTATE:
 
-            #reset rotation
-            SUBI G7 G7 0014     
+                #reset rotation
+                SUBI G7 G7 0014 
+
             RESET_ROTATE:
 
-            #overrite sprite_ptr
+            #write new current sprite
             SW ZERO G7 020D
-
 
             REPEAT_COLLISION_CHECK:
 
@@ -2028,15 +2028,19 @@ START:
 
         MOV G4 0076
         BNE KB G4 SWAP_PIECE:
+        LW G4 ZERO 0224
+        BNE G4 ZERO SWAP_PIECE:
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
             SW ZERO G4 020F
+            SW ZERO G4 0224
             MOV KB 0000
 
-            #loading current and stored piece
+            #loading current and stored piece, and save last_sprite
             LW G4 ZERO 0213
             LW G7 ZERO 020D
+            SW ZERO G7 0211
 
             #store current pos in stack
             SW SP G0 0001
@@ -2057,38 +2061,52 @@ START:
             ADD G2 G7 ZERO
             JAL DRAW_SPRITE: LR
 
+            #
+            MOV G0 0000         #int ii
+            LW G1 ZERO 0215     #G1 = level
+            SUBI G1 G1 0218
+            LW G2 G4 0000       #load current piece color
+            MOV G3 813E         #vram ptr
+
+            #for(int ii = 0; ii < level; ii++)
+            SWAP_PIECE_FOR_START:
+            BGT G0 G1 SWAP_PIECE_FOR_END:
+
+                #drawpixel(E, 19 - 2*ii)
+                SW G3 G2 0000
+                ADDI G0 G0 0001
+                SUBI G3 G3 0020
+
+            JMP SWAP_PIECE_FOR_START:
+            SWAP_PIECE_FOR_END:
+
             #pop current pos from stack
             LW G1 SP 0000
             LW G0 SP FFFF
             SUBI SP SP 0002
 
-            #clearing sprite form play area
-            LW G2 ZERO 020D
-            JAL CLEAR_SPRITE: LR
+            # #clearing sprite form play area
+            # LW G2 ZERO 020D
+            # JAL CLEAR_SPRITE: LR
 
             #spwaping current and stored piece
             SW ZERO G4 020D
-            SW ZERO G4 0211
             SW ZERO G7 0213
+
+
 
             #temp regs
             MOV G0 0006
             MOV G1 FFFF
-            MOV G2 0000
-            MOV G4 FFFE
-
-            #reseting pos
-            SW ZERO G0 0200
-            SW ZERO G4 0201
-            SW ZERO G0 0202
-            SW ZERO G1 0203
-            SW ZERO G0 0204
-            SW ZERO G2 0205
 
         SWAP_PIECE:
 
 
-        #save current pos in ram
+        #updating current & past pos in ram
+        LW G6 ZERO 0202
+        LW G7 ZERO 0203
+        SW ZERO G6 0200
+        SW ZERO G7 0201
         SW ZERO G0 0202
         SW ZERO G1 0203
 
@@ -2110,6 +2128,7 @@ START:
             LW G0 ZERO 0202
             LW G1 ZERO 0203
             LW G2 ZERO 020D
+            SW ZERO G2 0211     #if spritess echo then move this outside of PIECE_MOVED
             JAL DRAW_SPRITE: LR
 
         PIECE_MOVED:
@@ -2118,17 +2137,12 @@ START:
     BLT CLK G0 WAIT: #end_while
 
     #move down one pixel & store current and last pos
-
-    #if(piece_landed == 1) {piece_landed();}
-    LW G0 ZERO 0210
-    BNE G0 ZERO PIECE_LANDED:
-
     LW G0 ZERO 0202
     LW G1 ZERO 0203
-    SW ZERO G0 0200     #todo remove l8r
+    SW ZERO G0 0200
     SW ZERO G1 0201
     ADDI G1 G1 0001
-    SW ZERO G0 0202
+    #SW ZERO G0 0202
     SW ZERO G1 0203
 
     JMP WHILE_TRUE:
