@@ -1,5 +1,4 @@
 TODO: 
-- rotate after piece land bug
 - optimize abw sel
 - carry lookahead
 - fix rng

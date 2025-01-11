@@ -1726,8 +1726,9 @@ NEW_PIECE:
     #G5 = current_sprite + (3lsb of rng) * 0x0040
     LW G0 ZERO 0214
     LW G2 ZERO 020D
+    ADDI G7 CLK 0001
     MOV G1 0007
-    AND G4 CLK G1
+    AND G4 G7 G1
     MULI G4 G4 0040
     ADD G5 G2 G4
 
@@ -1902,12 +1903,12 @@ START:
             SW SP G1 0002
             ADDI SP SP 0002
 
-            MULI G4 G1 0010
-            SW G4 ZERO 8001
+            MULI G4 G1 0010     #cool effect
+            SW G4 ZERO 8001     #cool effect
 
             LW G2 ZERO 020D
             LW G3 G2 0000
-            SW G4 G3 8001
+            SW G4 G3 8001       #cool effect
             JAL COLLISION_CHECK: LR
             ADD G2 G0 ZERO
 
