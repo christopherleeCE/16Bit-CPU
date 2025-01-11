@@ -1799,6 +1799,7 @@ START:
 
     #if col == 1 revert current pos, jump to wait loop
     BEQ G0 ZERO COL_RET_ONE:
+
         LW G0 ZERO 0200
         LW G1 ZERO 0201
         SW ZERO G0 0202
@@ -1862,18 +1863,22 @@ START:
         PAUSE:
 
 
-        #fast fall enable with 's', disable with w
+        #fast fall toggle with 's'
         MOV G4 0073
-        BNE KB G4 FAST_FALL:
+        BNE KB G4 FAST_FALL_CONT:
+        LW G4 ZERO 0212
+        BEQ ZERO G4 STOP_FAST_FALL:
 
             #clear KB reg & wait_until_clk = wait_time = 0 
             SW ZERO ZERO 0212
             SW ZERO ZERO 0217
             MOV KB 0000
 
-        FAST_FALL:
-        MOV G4 0077
-        BNE KB G4 STOP_FAST_FALL:
+            JMP FAST_FALL_CONT:
+            STOP_FAST_FALL:
+
+            #clear KB reg
+            MOV KB 0000
 
             #wait_time = fall_speed_table[level]
             LW G2 ZERO 0215
@@ -1884,10 +1889,67 @@ START:
             ADD G4 G2 CLK
             SW ZERO G4 0217
 
-            #clear KB reg
-            MOV KB 0000
 
-        STOP_FAST_FALL:
+        FAST_FALL_CONT:
+
+
+        #todo, maybe literally copy and paste the function into this loop so remove overhead of popping & pushing stack in loop
+        MOV G4 0077
+        BNE KB G4 HARD_DROP:
+        HARD_DROP_LOOP:
+
+            SW SP G0 0001
+            SW SP G1 0002
+            ADDI SP SP 0002
+
+            MULI G4 G1 0010
+            SW G4 ZERO 8001
+
+            LW G2 ZERO 020D
+            LW G3 G2 0000
+            SW G4 G3 8001
+            JAL COLLISION_CHECK: LR
+            ADD G2 G0 ZERO
+
+            LW G1 SP 0000
+            LW G0 SP FFFF
+            SUBI SP SP 0002
+
+            ADDI G1 G1 0001
+
+        BEQ G2 ZERO HARD_DROP_LOOP:
+        
+            #was_moved = has_landed = 1; & clear KB reg
+            MOV G4 0001
+            SW ZERO G4 020F
+            SW ZERO G4 0210
+            MOV KB 0000
+            SUBI G1 G1 0002
+
+            #cool effect
+            MOV G4 0047
+            SW ZERO G4 8001
+            SW ZERO G4 8011
+            SW ZERO G4 8021
+            SW ZERO G4 8031
+            SW ZERO G4 8041
+            SW ZERO G4 8051
+            SW ZERO G4 8061
+            SW ZERO G4 8071
+            SW ZERO G4 8081
+            SW ZERO G4 8091
+            SW ZERO G4 80A1
+            SW ZERO G4 80B1
+            SW ZERO G4 80C1
+            SW ZERO G4 80D1
+            SW ZERO G4 80E1
+            SW ZERO G4 80F1
+            SW ZERO G4 8101
+            SW ZERO G4 8111
+            SW ZERO G4 8121
+            SW ZERO G4 8131
+
+        HARD_DROP:
 
 
         #move left

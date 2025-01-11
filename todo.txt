@@ -3,3 +3,4 @@ TODO:
 - optimize abw sel
 - carry lookahead
 - fix rng
+- optimize stack calls in game_loop
