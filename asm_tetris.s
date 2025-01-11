@@ -1400,7 +1400,7 @@ COLLISION_CHECK: #G0(x) G1(y) G2(sprite_collision_ptr (sprite_addr + 0x0020)
     MOV G5 0001         #const int = 1 (black)
     MOV G6 0000         #int ii
 
-    MOV G7 0008         #debug color
+    # MOV G7 0008         #debug color
 
     MOV G0 0004         #num of collision points
     SUBI G0 G0 0001     #dec for for loop
