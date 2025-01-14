@@ -2211,12 +2211,17 @@ GAME_END:
     
     #flash last piece
     MOV G6 0100
+    LW G7 ZERO 020D
+    LW G7 G7 0000
+    SW SP G7 0001
+    ADDI SP SP 0001
+    
     GAME_END_WHILE_TRUE:
 
         LW G0 ZERO 0202
         LW G1 ZERO 0203
         LW G2 ZERO 020D
-        MOV G7 0002
+        LW G7 SP 0000
         SW G2 G7 0000
         JAL DRAW_SPRITE: LR
 
