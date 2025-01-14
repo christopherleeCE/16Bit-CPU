@@ -2120,7 +2120,6 @@ START:
             ADD G2 G7 ZERO
             JAL DRAW_SPRITE: LR
 
-            #
             MOV G0 0000         #int ii
             LW G1 ZERO 0215     #G1 = level
             SUBI G1 G1 0218
