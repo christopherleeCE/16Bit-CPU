@@ -4065,7 +4065,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
         </entry>
         <entry>
           <string>InDefault</string>
-          <value v="2097" z="false"/>
+          <value v="-1" z="false"/>
         </entry>
       </elementAttributes>
       <pos x="2320" y="-400"/>
@@ -4143,7 +4143,7 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
         </entry>
         <entry>
           <string>InDefault</string>
-          <value v="1" z="false"/>
+          <value v="-1" z="false"/>
         </entry>
       </elementAttributes>
       <pos x="2320" y="-240"/>
@@ -5071,9 +5071,10 @@ ADDR &gt;= 0x8100 -&gt; VRAM2</string>
 ,13800849,1a800000,1108020f,10800200,10900201,10a00211,16061a50
 ,10800202,10900203,10a0020d,110a0211,1605ee50,10800217,12780789
 ,10800202,10900203,11080200,11090201,b990001,11090203,15077300
-,1ae01000,10800202,10900203,10a0020d,1af00020,11af0000,1605ee50
-,f7e000,127f085a,10800202,10900203,10a0020d,1af00090,11af0000
-,1605ee50,f7e000,127f0862,15085300,15086400</data>
+,1ae01000,10f0020d,10ff0000,114f0001,b440001,10800202,10900203
+,10a0020d,10f40000,11af0000,1605ee50,f7e000,127f085e,10800202
+,10900203,10a0020d,1af00090,11af0000,1605ee50,f7e000,127f0866
+,15085700,15086800</data>
         </entry>
       </elementAttributes>
       <pos x="-600" y="300"/>
