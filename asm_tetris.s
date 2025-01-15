@@ -13,7 +13,7 @@ INIT:
     #JAL DEBUG_FILL: LR
 
     #initalize piece
-    #JAL NEW_PIECE: LR
+    JAL NEW_PIECE: LR
 
     #begining game loop
     JMP START:
@@ -503,7 +503,7 @@ INIT_VARS:
     LOAD_RAM 020C FFFF
 
     #current sprite
-    LOAD_RAM 020D 0040
+    LOAD_RAM 020D 0000
 
     #lowest collision point
     LOAD_RAM 020E 0000
@@ -1719,10 +1719,12 @@ NEW_PIECE:
     SW ZERO G0 0204
     SW ZERO G2 0205
 
-    #G5 = current_sprite + (3lsb of rng) * 0x0040
+    #G5 = current_sprite + (3lsb of (CLK + rng)) * 0x0040
     LW G0 ZERO 0214
+    #SW ZERO ZERO 0214   #reseting rng <- not sure if the makes rng better or worse
     LW G2 ZERO 020D
     ADDI G7 CLK 0001
+    ADD G7 G7 G0
     MOV G1 0007
     AND G4 G7 G1
     MULI G4 G4 0040
@@ -1843,6 +1845,11 @@ START:
         MOV G4 0060
         BNE KB G4 PAUSE:
 
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
+
             #push clock to stack & reset keyboard
             SW SP CLK 0001
             ADDI SP SP 0001
@@ -1851,6 +1858,11 @@ START:
             PAUSE_WHILE:
             #do nothing while kb != 'p'
             BNE KB G4 PAUSE_WHILE:
+
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
 
             #pop clk from stack & reset kb
             LW CLK SP 0000
@@ -1866,6 +1878,11 @@ START:
         LW G4 ZERO 0212
         BEQ ZERO G4 STOP_FAST_FALL:
 
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
+
             #clear KB reg & wait_until_clk = wait_time = 0 
             SW ZERO ZERO 0212
             SW ZERO ZERO 0217
@@ -1873,6 +1890,11 @@ START:
 
             JMP FAST_FALL_CONT:
             STOP_FAST_FALL:
+
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
 
             #clear KB reg
             MOV KB 0000
@@ -1915,6 +1937,11 @@ START:
             ADDI G1 G1 0001
 
         BEQ G2 ZERO HARD_DROP_LOOP:
+
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
         
             #was_moved = has_landed = 1; & clear KB reg
             MOV G4 0001
@@ -1953,6 +1980,11 @@ START:
         MOV G4 0061
         BNE KB G4 LEFT:
 
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
+
             #was_moved = 1; & clear KB reg
             MOV G4 0001
             SW ZERO G4 020F
@@ -1987,6 +2019,11 @@ START:
         MOV G4 0064
         BNE KB G4 RIGHT:
 
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
+
             #was_moved = 1; & clear KB reg
             MOV G4 0001
             SW ZERO G4 020F
@@ -2019,6 +2056,11 @@ START:
         #rotate piece clockwise
         MOV G4 0020
         BNE KB G4 ROTATE:
+
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
@@ -2089,6 +2131,11 @@ START:
         BNE KB G4 SWAP_PIECE:
         LW G4 ZERO 0224
         BNE G4 ZERO SWAP_PIECE:
+
+            #rng inc
+            LW G7 ZERO 0214
+            ADDI G7 G7 0001
+            SW ZERO G7 0214
 
             #was_moved = 1; & clear KB reg
             MOV G4 0001
