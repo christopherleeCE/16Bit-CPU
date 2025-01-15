@@ -284,7 +284,7 @@
           <string>CRY</string>
         </entry>
       </elementAttributes>
-      <pos x="120" y="-220"/>
+      <pos x="140" y="-220"/>
     </visualElement>
     <visualElement>
       <elementName>INC-16.dig</elementName>
@@ -460,7 +460,7 @@
     </wire>
     <wire>
       <p1 x="80" y="-220"/>
-      <p2 x="120" y="-220"/>
+      <p2 x="140" y="-220"/>
     </wire>
     <wire>
       <p1 x="-60" y="-220"/>
@@ -519,12 +519,12 @@
       <p2 x="-40" y="380"/>
     </wire>
     <wire>
-      <p1 x="80" y="-540"/>
-      <p2 x="80" y="-420"/>
-    </wire>
-    <wire>
       <p1 x="80" y="-340"/>
       <p2 x="80" y="-220"/>
+    </wire>
+    <wire>
+      <p1 x="80" y="-540"/>
+      <p2 x="80" y="-420"/>
     </wire>
     <wire>
       <p1 x="100" y="-460"/>

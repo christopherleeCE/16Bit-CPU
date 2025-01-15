@@ -15,6 +15,8 @@ INIT:
     #initalize piece
     JAL NEW_PIECE: LR
 
+
+
     #begining game loop
     JMP START:
 
@@ -1722,11 +1724,20 @@ NEW_PIECE:
     #G5 = current_sprite + (3lsb of (CLK + rng)) * 0x0040
     LW G0 ZERO 0214
     #SW ZERO ZERO 0214   #reseting rng <- not sure if the makes rng better or worse
-    LW G2 ZERO 020D
+    LW G2 ZERO 020A
     ADDI G7 CLK 0001
     ADD G7 G7 G0
     MOV G1 0007
     AND G4 G7 G1
+    ADDI G4 G4 0001
+    #G4 = rand(1:8)
+
+    #if(G4 > 6); G4 = 1
+    BLT G4 G1 SAME_PIECE:
+        MOV G4 0001
+    SAME_PIECE:
+
+    #next piece = "lest" nextpiece + G4*0040
     MULI G4 G4 0040
     ADD G5 G2 G4
 
@@ -1742,6 +1753,10 @@ NEW_PIECE:
     LW G4 ZERO 020A
     #at this point G4 = "last" next_piece & G5 = "curent" next_piece
 
+    SW ZERO G4 020D     #current_piece = "last" next_piece
+    SW ZERO G4 0211
+    SW ZERO G5 020A     #next_piece = "current" next_piece
+
     #redraw the "next piece" display in the bottom right
     MOV G0 000B
     MOV G1 0014
@@ -1751,10 +1766,6 @@ NEW_PIECE:
     MOV G1 0014
     ADD G2 ZERO G5
     JAL DRAW_SPRITE: LR
-
-    SW ZERO G4 020D     #current_piece = "last" next_piece
-    SW ZERO G4 0211
-    SW ZERO G5 020A     #next_piece = "current" next_piece
 
     MOV G0 0000         #int ii
     LW G1 ZERO 0215     #G1 = level
@@ -1823,6 +1834,14 @@ START:
     #wait_until_clk = clk + wait_time
     LW G0 ZERO 0212
     ADD G1 G0 CLK
+
+    #catching overflow of clk register when calculating wait_until_clk
+    BEQ HI ZERO CLK_OVERFLOW:
+        MOV CLK 0000
+        ADD G1 G0 ZERO
+    CLK_OVERFLOW:
+
+    #storing wait_until_clk
     SW ZERO G1 0217
 
     # 0x0077 = 's'
@@ -2127,7 +2146,7 @@ START:
         ROTATE:
 
 
-        MOV G4 0076
+        MOV G4 0009
         BNE KB G4 SWAP_PIECE:
         LW G4 ZERO 0224
         BNE G4 ZERO SWAP_PIECE:

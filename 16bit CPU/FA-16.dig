@@ -220,44 +220,8 @@
           <string>Label</string>
           <string>CRY</string>
         </entry>
-        <entry>
-          <string>Bits</string>
-          <int>16</int>
-        </entry>
       </elementAttributes>
-      <pos x="380" y="-520"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Ground</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Bits</string>
-          <int>15</int>
-        </entry>
-      </elementAttributes>
-      <pos x="360" y="-440"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Splitter</elementName>
-      <elementAttributes>
-        <entry>
-          <string>mirror</string>
-          <boolean>true</boolean>
-        </entry>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="1"/>
-        </entry>
-        <entry>
-          <string>Input Splitting</string>
-          <string>1,15</string>
-        </entry>
-        <entry>
-          <string>Output Splitting</string>
-          <string>16</string>
-        </entry>
-      </elementAttributes>
-      <pos x="380" y="-480"/>
+      <pos x="380" y="-460"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -407,7 +371,7 @@
     </wire>
     <wire>
       <p1 x="360" y="480"/>
-      <p2 x="380" y="480"/>
+      <p2 x="400" y="480"/>
     </wire>
     <wire>
       <p1 x="240" y="480"/>
@@ -420,10 +384,6 @@
     <wire>
       <p1 x="420" y="480"/>
       <p2 x="440" y="480"/>
-    </wire>
-    <wire>
-      <p1 x="380" y="480"/>
-      <p2 x="400" y="480"/>
     </wire>
     <wire>
       <p1 x="360" y="-420"/>
@@ -606,12 +566,8 @@
       <p2 x="180" y="480"/>
     </wire>
     <wire>
-      <p1 x="360" y="-480"/>
-      <p2 x="360" y="-440"/>
-    </wire>
-    <wire>
       <p1 x="380" y="460"/>
-      <p2 x="380" y="500"/>
+      <p2 x="380" y="480"/>
     </wire>
     <wire>
       <p1 x="380" y="220"/>
@@ -670,12 +626,12 @@
       <p2 x="380" y="-340"/>
     </wire>
     <wire>
-      <p1 x="380" y="-480"/>
+      <p1 x="380" y="-460"/>
       <p2 x="380" y="-400"/>
     </wire>
     <wire>
-      <p1 x="380" y="-520"/>
-      <p2 x="380" y="-500"/>
+      <p1 x="380" y="480"/>
+      <p2 x="380" y="500"/>
     </wire>
   </wires>
   <measurementOrdering/>
