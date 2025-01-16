@@ -11,14 +11,10 @@ INIT:
 
     #debug
     #JAL DEBUG_FILL: LR
+    #JMP DEBUG:
 
     #initalize piece
     JAL NEW_PIECE: LR
-
-
-
-    #begining game loop
-    JMP START:
 
 #sprite data
 LOAD_SPRITES:
@@ -1793,6 +1789,75 @@ NEW_PIECE:
     BNE G0 ZERO GAME_END:
 
     JMP WHILE_TRUE:
+
+#debug :)
+DEBUG:
+
+    LW G0 ZERO 0202
+    LW G1 ZERO 0203
+
+    MOV G4 0061
+    BNE KB G4 LEFT_D:
+
+        MOV SP 0001
+        MOV KB 0000
+        SUBI G0 G0 0001
+
+    LEFT_D:
+
+    MOV G4 0064
+    BNE KB G4 RIGHT_D:
+
+        MOV SP 0001
+        MOV KB 0000
+        ADDI G0 G0 0001
+
+    RIGHT_D:
+
+    MOV G4 0077
+    BNE KB G4 UP_D:
+
+        MOV SP 0001
+        MOV KB 0000
+        SUBI G1 G1 0001
+
+    UP_D:
+
+    MOV G4 0073
+    BNE KB G4 DOWN_D:
+
+        MOV SP 0001
+        MOV KB 0000
+        ADDI G1 G1 0001
+
+    DOWN_D:
+
+    LW G2 ZERO 0202
+    LW G3 ZERO 0203
+    SW ZERO G2 0200
+    SW ZERO G3 0201
+    SW ZERO G0 0202
+    SW ZERO G1 0203
+
+    BEQ SP ZERO PIECE_MOVED_D:
+
+        MOV SP 0000
+
+        #clear sprite from last frame
+        LW G0 ZERO 0200
+        LW G1 ZERO 0201
+        LW G2 ZERO 0211
+        JAL CLEAR_SPRITE: LR
+
+        #draw sprite for this frame
+        LW G0 ZERO 0202
+        LW G1 ZERO 0203
+        LW G2 ZERO 020D
+        JAL DRAW_SPRITE: LR
+
+    PIECE_MOVED_D:
+
+JMP DEBUG:
 
 #start :)
 START:
