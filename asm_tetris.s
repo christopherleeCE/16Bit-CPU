@@ -1900,21 +1900,17 @@ START:
     LW G0 ZERO 0212
     ADD G1 G0 CLK
 
-    #catching overflow of clk register when calculating wait_until_clk
-    BEQ HI ZERO CLK_OVERFLOW:
-        MOV CLK 0000
-        ADD G1 G0 ZERO
+    #if clk >= 50000, then 'reset' clk (really just shift if down by like 50k)
+    #this prevents any bugs assositated with clk overflowing in wait()
+    MOV G2 C350
+    BLT CLK G2 CLK_OVERFLOW:
+        SUB CLK CLK G2
+        ADD G1 G0 CLK
     CLK_OVERFLOW:
 
     #storing wait_until_clk
     SW ZERO G1 0217
-
-    # 0x0077 = 's'
-    # 0x0061 = 'a'
-    # 0x0064 = 'd'
-    # 0x0020 = 'SPACE'
-    # 0x0076 = 'v'
-    # 0x0070 = '~'
+    
 
     WAIT: #while(clk < wait_until_clk) {gameplay loop}
 
@@ -1991,7 +1987,6 @@ START:
             #wait_until_clk = clk + wait_time
             ADD G4 G2 CLK
             SW ZERO G4 0217
-
 
         FAST_FALL_CONT:
 
