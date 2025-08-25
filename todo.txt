@@ -3,3 +3,4 @@ TODO:
 - carry lookahead
 - fix rng
 - optimize stack calls in game_loop
+- fix clk overflow, that is (endclk - startclk) > delay
